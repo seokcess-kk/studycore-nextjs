@@ -49,20 +49,22 @@ export function HeroSectionEditor() {
     is_active: true,
   });
 
-  // 필드 초기값 설정
+  // 필드 초기값 설정 - 외부 데이터를 로컬 상태로 동기화
   useEffect(() => {
     if (fields) {
       const values: Record<string, string> = {};
       fields.forEach(f => {
         values[f.field_key] = f.content;
       });
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setFormValues(values);
     }
   }, [fields]);
 
-  // 편집 모드 시 statForm 설정
+  // 편집 모드 시 statForm 설정 - 폼 상태 초기화
   useEffect(() => {
     if (editingStat) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setStatForm({
         stat_value: editingStat.stat_value,
         stat_label: editingStat.stat_label,
@@ -381,7 +383,7 @@ export function HeroSectionEditor() {
           <AlertDialogHeader>
             <AlertDialogTitle>통계 삭제</AlertDialogTitle>
             <AlertDialogDescription>
-              "{deleteTarget?.stat_value} - {deleteTarget?.stat_label}" 통계를 삭제하시겠습니까?
+              &quot;{deleteTarget?.stat_value} - {deleteTarget?.stat_label}&quot; 통계를 삭제하시겠습니까?
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

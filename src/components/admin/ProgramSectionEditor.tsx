@@ -30,18 +30,22 @@ export function ProgramSectionEditor() {
     study_hours: '',
   });
 
+  // 필드 초기값 설정 - 외부 데이터를 로컬 상태로 동기화
   useEffect(() => {
     if (fields) {
       const values: Record<string, string> = {};
       fields.forEach(f => {
         values[f.field_key] = f.content;
       });
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setFormValues(values);
     }
   }, [fields]);
 
+  // 편집 모드 시 hourForm 설정 - 폼 상태 초기화
   useEffect(() => {
     if (editingHour) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setHourForm({
         schedule_label: editingHour.schedule_label,
         operating_hours: editingHour.operating_hours ?? '',

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Icon } from "@iconify/react";
 import Image from "next/image";
@@ -38,6 +38,7 @@ export const SpaceSection = () => {
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const prevLengthRef = useRef(spaces.length);
 
   const nextSlide = useCallback(() => {
     setCurrentIndex((prev) => (prev + 1) % spaces.length);
@@ -47,12 +48,14 @@ export const SpaceSection = () => {
     setCurrentIndex((prev) => (prev - 1 + spaces.length) % spaces.length);
   }, [spaces.length]);
 
-  // Reset currentIndex if slides change
+  // Reset currentIndex if slides length changes and current index is out of bounds
   useEffect(() => {
-    if (currentIndex >= spaces.length) {
-      setCurrentIndex(0);
+    if (prevLengthRef.current !== spaces.length) {
+      prevLengthRef.current = spaces.length;
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setCurrentIndex((prev) => (prev >= spaces.length ? 0 : prev));
     }
-  }, [spaces.length, currentIndex]);
+  }, [spaces.length]);
 
   // Auto-slide every 5 seconds
   useEffect(() => {

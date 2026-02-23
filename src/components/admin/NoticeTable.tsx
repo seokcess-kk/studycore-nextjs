@@ -224,7 +224,7 @@ export default function NoticeTable({ notices, onRefresh }: NoticeTableProps) {
           <AlertDialogHeader>
             <AlertDialogTitle>공지사항 삭제</AlertDialogTitle>
             <AlertDialogDescription>
-              "{noticeToDelete?.title}" 공지사항을 삭제하시겠습니까?
+              &quot;{noticeToDelete?.title}&quot; 공지사항을 삭제하시겠습니까?
               <br />
               이 작업은 되돌릴 수 없습니다.
             </AlertDialogDescription>

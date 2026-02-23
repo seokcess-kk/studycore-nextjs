@@ -41,9 +41,10 @@ export function SpaceSlideModal({
 
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  // 편집 모드일 때 폼 값 설정
+  // 편집 모드일 때 폼 값 설정 - 외부 데이터를 로컬 상태로 동기화
   useEffect(() => {
     if (slide) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setForm({
         title: slide.title,
         description: slide.description,

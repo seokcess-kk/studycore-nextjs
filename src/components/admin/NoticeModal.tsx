@@ -100,7 +100,7 @@ export default function NoticeModal({ open, onOpenChange, notice, onSave, loadin
   const inlineImageInputRef = useRef<HTMLInputElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  const imageSizes = parseImageMarkers(content);
+  const _imageSizes = parseImageMarkers(content);
   const usedIndices = getUsedIndices(content);
 
   useEffect(() => {
@@ -424,7 +424,7 @@ export default function NoticeModal({ open, onOpenChange, notice, onSave, loadin
                 {content.includes('[IMG:') && (
                   <p className="text-xs text-muted-foreground">
                     <Icon icon="solar:info-circle-linear" className="w-3.5 h-3.5 inline mr-1" />
-                    '미리보기' 버튼을 클릭하여 이미지 크기를 조절할 수 있습니다.
+                    &apos;미리보기&apos; 버튼을 클릭하여 이미지 크기를 조절할 수 있습니다.
                   </p>
                 )}
               </>

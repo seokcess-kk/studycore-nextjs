@@ -153,7 +153,7 @@ export function EditHistoryView() {
             <AlertDialogTitle>변경사항 되돌리기</AlertDialogTitle>
             <AlertDialogDescription>
               <span className="font-medium">{rollbackTarget?.field_name}</span> 필드를{' '}
-              <span className="font-medium">"{truncateValue(rollbackTarget?.old_value ?? null, 50)}"</span>
+              <span className="font-medium">&quot;{truncateValue(rollbackTarget?.old_value ?? null, 50)}&quot;</span>
               (으)로 되돌리시겠습니까?
             </AlertDialogDescription>
           </AlertDialogHeader>

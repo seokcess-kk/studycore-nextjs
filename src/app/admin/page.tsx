@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import dynamic from 'next/dynamic';
 import { useAuth } from '@/hooks/useAuth';
@@ -48,7 +48,7 @@ interface Notice {
 }
 
 export default function AdminPage() {
-  const { user, isAdmin, loading, signOut } = useAuth();
+  const { user, loading, signOut } = useAuth();
   const router = useRouter();
   const [consultations, setConsultations] = useState<Consultation[]>([]);
   const [notices, setNotices] = useState<Notice[]>([]);
@@ -89,13 +89,7 @@ export default function AdminPage() {
     }
   }, [user]);
 
-  useEffect(() => {
-    if (user && verifiedAdmin) {
-      fetchData();
-    }
-  }, [user, verifiedAdmin]);
-
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     setLoadingData(true);
 
     // Parallel fetch all data (async-parallel optimization)
@@ -120,7 +114,15 @@ export default function AdminPage() {
     if (settingResult.data) setShowPopup(settingResult.data.value === 'true');
 
     setLoadingData(false);
-  };
+  }, []);
+
+  useEffect(() => {
+    if (user && verifiedAdmin) {
+      // Intentional: fetch data when admin is verified
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      fetchData();
+    }
+  }, [user, verifiedAdmin, fetchData]);
 
   const togglePopup = async (checked: boolean) => {
     const { error } = await supabase

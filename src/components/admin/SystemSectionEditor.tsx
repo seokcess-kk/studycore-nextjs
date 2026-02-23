@@ -42,12 +42,14 @@ export function SystemSectionEditor() {
   const [formValues, setFormValues] = useState<Record<string, string>>({});
   const [hasChanges, setHasChanges] = useState(false);
 
+  // 필드 초기값 설정 - 외부 데이터를 로컬 상태로 동기화
   useEffect(() => {
     if (fields) {
       const values: Record<string, string> = {};
       fields.forEach(f => {
         values[f.field_key] = f.content;
       });
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setFormValues(values);
     }
   }, [fields]);
@@ -234,7 +236,7 @@ export function SystemSectionEditor() {
           <AlertDialogHeader>
             <AlertDialogTitle>카드 삭제</AlertDialogTitle>
             <AlertDialogDescription>
-              "{deleteTarget?.title}" 카드를 삭제하시겠습니까?
+              &quot;{deleteTarget?.title}&quot; 카드를 삭제하시겠습니까?
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
