@@ -57,22 +57,28 @@ export function useUpdatePageSection() {
       fieldKey: string;
       content: string;
     }) => {
-      // 1. 현재 값 조회 (이력용)
-      const { data: current } = await supabase
-        .from('page_sections')
-        .select('id, content')
-        .eq('section_key', sectionKey)
-        .eq('field_key', fieldKey)
-        .single();
+      // 1. 현재 값과 사용자 정보를 병렬로 조회 (async-parallel optimization)
+      const [currentResult, userResult] = await Promise.all([
+        supabase
+          .from('page_sections')
+          .select('id, content')
+          .eq('section_key', sectionKey)
+          .eq('field_key', fieldKey)
+          .single(),
+        supabase.auth.getUser()
+      ]);
+
+      const current = currentResult.data;
+      const userId = userResult.data.user?.id;
+      const updatedAt = new Date().toISOString();
 
       // 2. 업데이트
-      const { data: userData } = await supabase.auth.getUser();
       const { data, error } = await supabase
         .from('page_sections')
         .update({
           content,
-          updated_at: new Date().toISOString(),
-          updated_by: userData.user?.id
+          updated_at: updatedAt,
+          updated_by: userId
         })
         .eq('section_key', sectionKey)
         .eq('field_key', fieldKey)
@@ -89,7 +95,7 @@ export function useUpdatePageSection() {
           field_name: fieldKey,
           old_value: current.content,
           new_value: content,
-          edited_by: userData.user?.id
+          edited_by: userId
         });
       }
 
@@ -123,41 +129,46 @@ export function useBatchUpdatePageSection() {
       updates: Record<string, string>;
     }) => {
       const { data: userData } = await supabase.auth.getUser();
+      const userId = userData.user?.id;
+      const updatedAt = new Date().toISOString();
 
-      for (const [fieldKey, content] of Object.entries(updates)) {
-        // 현재 값 조회
-        const { data: current } = await supabase
-          .from('page_sections')
-          .select('id, content')
-          .eq('section_key', sectionKey)
-          .eq('field_key', fieldKey)
-          .single();
+      // Parallel batch update (async-parallel optimization)
+      await Promise.all(
+        Object.entries(updates).map(async ([fieldKey, content]) => {
+          // 현재 값 조회
+          const { data: current } = await supabase
+            .from('page_sections')
+            .select('id, content')
+            .eq('section_key', sectionKey)
+            .eq('field_key', fieldKey)
+            .single();
 
-        // 업데이트
-        const { error } = await supabase
-          .from('page_sections')
-          .update({
-            content,
-            updated_at: new Date().toISOString(),
-            updated_by: userData.user?.id
-          })
-          .eq('section_key', sectionKey)
-          .eq('field_key', fieldKey);
+          // 업데이트
+          const { error } = await supabase
+            .from('page_sections')
+            .update({
+              content,
+              updated_at: updatedAt,
+              updated_by: userId
+            })
+            .eq('section_key', sectionKey)
+            .eq('field_key', fieldKey);
 
-        if (error) throw error;
+          if (error) throw error;
 
-        // 변경 이력 기록
-        if (current && current.content !== content) {
-          await supabase.from('section_edit_history').insert({
-            table_name: 'page_sections',
-            record_id: current.id,
-            field_name: fieldKey,
-            old_value: current.content,
-            new_value: content,
-            edited_by: userData.user?.id
-          });
-        }
-      }
+          // 변경 이력 기록
+          if (current && current.content !== content) {
+            await supabase.from('section_edit_history').insert({
+              table_name: 'page_sections',
+              record_id: current.id,
+              field_name: fieldKey,
+              old_value: current.content,
+              new_value: content,
+              edited_by: userId
+            });
+          }
+        })
+      );
     },
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({

@@ -2,17 +2,30 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import dynamic from 'next/dynamic';
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/lib/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Switch } from '@/components/ui/switch';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Skeleton } from '@/components/ui/skeleton';
 import { toast } from 'sonner';
 import { LogOut, RefreshCw, MessageSquare, Bell, LayoutGrid, Settings } from 'lucide-react';
-import ConsultationTable from '@/components/admin/ConsultationTable';
-import NoticeTable from '@/components/admin/NoticeTable';
-import { PageContentTab } from '@/components/admin/PageContentTab';
+
+// Dynamic imports for code splitting (bundle-dynamic-imports optimization)
+const ConsultationTable = dynamic(
+  () => import('@/components/admin/ConsultationTable'),
+  { loading: () => <Skeleton className="h-96 w-full" /> }
+);
+const NoticeTable = dynamic(
+  () => import('@/components/admin/NoticeTable'),
+  { loading: () => <Skeleton className="h-96 w-full" /> }
+);
+const PageContentTab = dynamic(
+  () => import('@/components/admin/PageContentTab').then(m => ({ default: m.PageContentTab })),
+  { loading: () => <Skeleton className="h-96 w-full" /> }
+);
 
 interface Consultation {
   id: string;
@@ -85,30 +98,26 @@ export default function AdminPage() {
   const fetchData = async () => {
     setLoadingData(true);
 
-    // Fetch consultations
-    const { data: consultData } = await supabase
-      .from('consultations')
-      .select('*')
-      .order('created_at', { ascending: false });
+    // Parallel fetch all data (async-parallel optimization)
+    const [consultResult, noticeResult, settingResult] = await Promise.all([
+      supabase
+        .from('consultations')
+        .select('*')
+        .order('created_at', { ascending: false }),
+      supabase
+        .from('notices')
+        .select('*')
+        .order('created_at', { ascending: false }),
+      supabase
+        .from('site_settings')
+        .select('value')
+        .eq('key', 'show_popup')
+        .maybeSingle()
+    ]);
 
-    if (consultData) setConsultations(consultData);
-
-    // Fetch notices
-    const { data: noticeData } = await supabase
-      .from('notices')
-      .select('*')
-      .order('created_at', { ascending: false });
-
-    if (noticeData) setNotices(noticeData);
-
-    // Fetch popup setting
-    const { data: settingData } = await supabase
-      .from('site_settings')
-      .select('value')
-      .eq('key', 'show_popup')
-      .maybeSingle();
-
-    if (settingData) setShowPopup(settingData.value === 'true');
+    if (consultResult.data) setConsultations(consultResult.data);
+    if (noticeResult.data) setNotices(noticeResult.data);
+    if (settingResult.data) setShowPopup(settingResult.data.value === 'true');
 
     setLoadingData(false);
   };
