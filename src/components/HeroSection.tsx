@@ -28,7 +28,7 @@ export const HeroSection = () => {
     : DEFAULT_HERO_STATS.map(s => ({ value: s.stat_value, label: s.stat_label, icon: s.icon_name }));
 
   return (
-    <section id="about" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+    <section id="about" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-surface-dark via-surface-darker to-surface-dark">
       {/* Background Image with Overlay */}
       <div className="absolute inset-0">
         <Image
@@ -38,12 +38,12 @@ export const HeroSection = () => {
           className="object-cover opacity-40"
           priority
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-slate-900/70 via-slate-900/50 to-slate-900/90" />
+        <div className="absolute inset-0 bg-gradient-to-b from-surface-dark/70 via-surface-dark/50 to-surface-dark/90" />
       </div>
 
       {/* Decorative Elements */}
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-teal-500/15 rounded-full blur-[120px]" />
-      <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-cyan-400/15 rounded-full blur-[100px]" />
+      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/15 rounded-full blur-[120px]" />
+      <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-brand-cyan/15 rounded-full blur-[100px]" />
 
       {/* Grid Pattern */}
       <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:60px_60px]" />
@@ -60,10 +60,10 @@ export const HeroSection = () => {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.2 }}
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-teal-500/20 border border-teal-400/30 mb-10"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary-muted border border-primary/30 mb-10"
           >
-            <Icon icon="solar:star-bold" className="w-4 h-4 text-teal-400" />
-            <span className="text-teal-300 text-sm font-semibold tracking-wide">{hero.badge}</span>
+            <Icon icon="solar:star-bold" className="w-4 h-4 text-primary" />
+            <span className="text-primary text-sm font-semibold tracking-wide">{hero.badge}</span>
           </motion.div>
 
           <motion.h1
@@ -81,7 +81,7 @@ export const HeroSection = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6 }}
-            className="text-lg md:text-xl text-slate-300/90 mb-14 max-w-xl mx-auto leading-relaxed"
+            className="text-lg md:text-xl text-text-on-dark-muted mb-14 max-w-xl mx-auto leading-relaxed"
           >
             {hero.description_1}
             <br />
@@ -127,12 +127,12 @@ export const HeroSection = () => {
             {stats.map((stat) => (
               <div key={stat.label} className="text-center">
                 <div className="flex justify-center mb-3">
-                  <div className="w-10 h-10 rounded-xl bg-teal-500/20 border border-teal-400/30 flex items-center justify-center">
-                    <Icon icon={stat.icon} className="w-5 h-5 text-teal-400" />
+                  <div className="w-10 h-10 rounded-xl bg-primary-muted border border-primary/30 flex items-center justify-center">
+                    <Icon icon={stat.icon} className="w-5 h-5 text-primary" />
                   </div>
                 </div>
                 <p className="text-2xl md:text-3xl font-bold text-gradient mb-1">{stat.value}</p>
-                <p className="text-xs md:text-sm text-slate-400 font-medium">{stat.label}</p>
+                <p className="text-xs md:text-sm text-text-muted font-medium">{stat.label}</p>
               </div>
             ))}
           </motion.div>

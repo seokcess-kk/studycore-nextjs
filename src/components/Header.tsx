@@ -41,12 +41,12 @@ export const Header = () => {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        isScrolled ? "bg-white shadow-lg shadow-slate-200/50 py-3" : "bg-slate-900/80 backdrop-blur-md py-4"
+        isScrolled ? "bg-card shadow-lg shadow-border/50 py-3" : "bg-surface-dark/80 backdrop-blur-md py-4"
       }`}
     >
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[60] focus:px-4 focus:py-2 focus:bg-teal-600 focus:text-white focus:rounded-md focus:outline-none focus:ring-2 focus:ring-white"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[60] focus:px-4 focus:py-2 focus:bg-primary focus:text-primary-foreground focus:rounded-md focus:outline-none focus:ring-2 focus:ring-ring"
       >
         메인 콘텐츠로 건너뛰기
       </a>
@@ -75,21 +75,21 @@ export const Header = () => {
                 className={`relative px-4 py-2 text-sm font-semibold transition-all duration-200 rounded-lg group ${
                   isScrolled
                     ? isCurrent
-                      ? "text-teal-600 bg-teal-50"
-                      : "text-slate-600 hover:text-teal-600 hover:bg-teal-50"
+                      ? "text-primary bg-primary-muted"
+                      : "text-muted-foreground hover:text-primary hover:bg-primary-muted"
                     : isCurrent
-                      ? "text-white bg-white/20"
-                      : "text-white/90 hover:text-white hover:bg-white/10"
+                      ? "text-text-on-dark bg-text-on-dark/20"
+                      : "text-text-on-dark/90 hover:text-text-on-dark hover:bg-text-on-dark/10"
                 }`}
               >
                 {item.label}
-                <span className="absolute bottom-1 left-4 right-4 h-0.5 bg-teal-500 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left rounded-full" />
+                <span className="absolute bottom-1 left-4 right-4 h-0.5 bg-primary scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left rounded-full" />
               </Link>
             );
           })}
           <Button
             asChild
-            className="ml-4 bg-gradient-to-r from-teal-600 to-teal-500 text-white hover:shadow-xl hover:shadow-teal-500/25 hover:-translate-y-0.5 transition-all duration-300 font-bold px-6 rounded-xl"
+            className="ml-4 bg-gradient-to-r from-primary to-primary-hover text-primary-foreground hover:shadow-xl hover:shadow-primary/25 hover:-translate-y-0.5 transition-all duration-300 font-bold px-6 rounded-xl"
           >
             <Link href="/#contact" className="flex items-center gap-2">
               <Icon icon="solar:chat-round-call-bold" className="w-4 h-4" />
@@ -101,7 +101,7 @@ export const Header = () => {
         {/* Mobile Menu Toggle */}
         <button
           className={`lg:hidden p-2 rounded-lg transition-all duration-200 ${
-            isScrolled ? "text-slate-700 hover:text-teal-600 hover:bg-teal-50" : "text-white hover:bg-white/10"
+            isScrolled ? "text-card-foreground hover:text-primary hover:bg-primary-muted" : "text-text-on-dark hover:bg-text-on-dark/10"
           }`}
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           aria-expanded={isMobileMenuOpen}
@@ -117,7 +117,7 @@ export const Header = () => {
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="lg:hidden bg-white mt-2 mx-4 rounded-2xl p-5 shadow-2xl border border-slate-100"
+          className="lg:hidden bg-card mt-2 mx-4 rounded-2xl p-5 shadow-2xl border border-border"
         >
           <nav
             id="mobile-navigation"
@@ -128,7 +128,7 @@ export const Header = () => {
               <Link
                 key={item.href}
                 href={item.href}
-                className="text-sm font-semibold text-slate-600 hover:text-teal-600 hover:bg-teal-50 transition-all duration-200 py-3 px-4 rounded-xl"
+                className="text-sm font-semibold text-muted-foreground hover:text-primary hover:bg-primary-muted transition-all duration-200 py-3 px-4 rounded-xl"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 {item.label}
@@ -136,7 +136,7 @@ export const Header = () => {
             ))}
             <Button
               asChild
-              className="mt-2 bg-gradient-to-r from-teal-600 to-teal-500 text-white w-full font-bold py-6 rounded-xl"
+              className="mt-2 bg-gradient-to-r from-primary to-primary-hover text-primary-foreground w-full font-bold py-6 rounded-xl"
             >
               <Link
                 href="/#contact"

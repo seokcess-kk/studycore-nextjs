@@ -52,7 +52,7 @@ export const SystemSection = () => {
   }, [systemCards]);
 
   return (
-    <section id="system" className="section-padding relative bg-gradient-to-b from-white via-slate-50/50 to-white">
+    <section id="system" className="section-padding relative bg-gradient-to-b from-background via-surface-muted/50 to-background">
       <div className="container mx-auto px-4 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -61,14 +61,14 @@ export const SystemSection = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-14"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-teal-50 border border-teal-200 mb-6">
-            <Icon icon="solar:settings-bold" className="w-4 h-4 text-teal-600" />
-            <span className="text-teal-700 text-sm font-semibold">{system.badge}</span>
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary-muted border border-primary/20 mb-6">
+            <Icon icon="solar:settings-bold" className="w-4 h-4 text-primary" />
+            <span className="text-primary font-semibold text-sm">{system.badge}</span>
           </div>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-5">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-5">
             {system.title}
           </h2>
-          <p className="text-slate-600 max-w-xl mx-auto text-base md:text-lg">
+          <p className="text-muted-foreground max-w-xl mx-auto text-base md:text-lg">
             {system.description_1}
             <br className="hidden sm:block" />
             {system.description_2}
@@ -83,18 +83,18 @@ export const SystemSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="group relative bg-white rounded-2xl p-7 border border-slate-200 shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
+              className="group relative bg-card rounded-2xl p-7 border border-border shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
             >
               <div className={`w-14 h-14 rounded-2xl ${systemItem.bgColor} flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300`}>
                 <Icon icon={systemItem.icon} className={`w-7 h-7 ${systemItem.textColor}`} />
               </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-2">
+              <h3 className="text-xl font-bold text-card-foreground mb-2">
                 {systemItem.title}
               </h3>
               <p className={`text-sm font-semibold mb-3 ${systemItem.textColor}`}>
                 {systemItem.description}
               </p>
-              <p className="text-sm text-slate-500 leading-relaxed">
+              <p className="text-sm text-muted-foreground leading-relaxed">
                 {systemItem.details}
               </p>
 

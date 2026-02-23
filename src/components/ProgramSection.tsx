@@ -38,11 +38,11 @@ export const ProgramSection = () => {
   return (
     <section
       id="program"
-      className="section-padding relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 overflow-hidden"
+      className="section-padding relative bg-gradient-to-br from-surface-dark via-surface-darker to-surface-dark overflow-hidden"
     >
       {/* Background decorations */}
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-teal-500/15 rounded-full blur-[120px]" />
-      <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-cyan-500/15 rounded-full blur-[100px]" />
+      <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/15 rounded-full blur-[120px]" />
+      <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-brand-cyan/15 rounded-full blur-[100px]" />
 
       <div className="container mx-auto px-4 relative z-10">
         <motion.div
@@ -52,11 +52,11 @@ export const ProgramSection = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-14"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 mb-6">
-            <Icon icon="solar:notebook-bold" className="w-4 h-4 text-teal-400" />
-            <span className="text-teal-300 text-sm font-semibold">{program.badge}</span>
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-text-on-dark/10 border border-text-on-dark/20 mb-6">
+            <Icon icon="solar:notebook-bold" className="w-4 h-4 text-primary" />
+            <span className="text-primary text-sm font-semibold">{program.badge}</span>
           </div>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white">{program.title}</h2>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-text-on-dark">{program.title}</h2>
         </motion.div>
 
         {/* Winter School Banner */}
@@ -67,22 +67,22 @@ export const ProgramSection = () => {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="max-w-4xl mx-auto"
         >
-          <div className="relative bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl rounded-3xl p-8 md:p-10 border border-white/20 overflow-hidden">
+          <div className="relative bg-gradient-to-br from-text-on-dark/10 to-text-on-dark/5 backdrop-blur-xl rounded-3xl p-8 md:p-10 border border-text-on-dark/20 overflow-hidden">
             {/* Decorative elements */}
-            <div className="absolute top-0 right-0 w-64 h-64 bg-teal-500/20 rounded-full blur-[80px]" />
-            <div className="absolute -bottom-20 -left-20 w-48 h-48 bg-cyan-500/20 rounded-full blur-[60px]" />
+            <div className="absolute top-0 right-0 w-64 h-64 bg-primary/20 rounded-full blur-[80px]" />
+            <div className="absolute -bottom-20 -left-20 w-48 h-48 bg-brand-cyan/20 rounded-full blur-[60px]" />
 
             <div className="relative z-10">
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-teal-500/20 border border-teal-400/30 rounded-full mb-6">
-                <Icon icon="solar:star-shine-bold" className="w-4 h-4 text-teal-300" />
-                <span className="text-teal-200 font-bold text-sm">{program.status_badge}</span>
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary-muted border border-primary/30 rounded-full mb-6">
+                <Icon icon="solar:star-shine-bold" className="w-4 h-4 text-primary" />
+                <span className="text-primary font-bold text-sm">{program.status_badge}</span>
               </div>
 
-              <h3 className="text-2xl md:text-4xl font-bold text-white mb-4">
+              <h3 className="text-2xl md:text-4xl font-bold text-text-on-dark mb-4">
                 {program.banner_title}
               </h3>
 
-              <p className="text-slate-300 mb-8 max-w-lg text-base md:text-lg leading-relaxed">
+              <p className="text-text-on-dark-muted mb-8 max-w-lg text-base md:text-lg leading-relaxed">
                 {program.banner_desc_1}
                 <br className="hidden sm:block" />
                 {program.banner_desc_2}
@@ -96,14 +96,14 @@ export const ProgramSection = () => {
                 ].map((item) => (
                   <div
                     key={item.label}
-                    className="flex items-center gap-3 bg-white/10 border border-white/10 rounded-xl p-4"
+                    className="flex items-center gap-3 bg-text-on-dark/10 border border-text-on-dark/10 rounded-xl p-4"
                   >
-                    <div className="w-11 h-11 rounded-xl bg-teal-500/20 border border-teal-400/30 flex items-center justify-center flex-shrink-0">
-                      <Icon icon={item.icon} className="w-5 h-5 text-teal-300" />
+                    <div className="w-11 h-11 rounded-xl bg-primary-muted border border-primary/30 flex items-center justify-center flex-shrink-0">
+                      <Icon icon={item.icon} className="w-5 h-5 text-primary" />
                     </div>
                     <div className="min-w-0">
-                      <p className="text-xs text-slate-400 mb-0.5">{item.label}</p>
-                      <p className="text-white font-bold text-sm md:text-base truncate">{item.value}</p>
+                      <p className="text-xs text-text-muted mb-0.5">{item.label}</p>
+                      <p className="text-text-on-dark font-bold text-sm md:text-base truncate">{item.value}</p>
                     </div>
                   </div>
                 ))}
@@ -113,7 +113,7 @@ export const ProgramSection = () => {
                 <Button
                   asChild
                   size="lg"
-                  className="bg-gradient-to-r from-teal-500 to-teal-400 text-white hover:shadow-2xl hover:shadow-teal-500/30 hover:-translate-y-0.5 transition-all duration-300 px-8 py-6 text-base font-bold rounded-xl"
+                  className="bg-gradient-to-r from-primary to-primary-hover text-primary-foreground hover:shadow-2xl hover:shadow-primary/30 hover:-translate-y-0.5 transition-all duration-300 px-8 py-6 text-base font-bold rounded-xl"
                 >
                   <a href="#contact" className="flex items-center gap-2">
                     {program.cta_primary}
@@ -124,7 +124,7 @@ export const ProgramSection = () => {
                   asChild
                   variant="outline"
                   size="lg"
-                  className="border-2 border-white/30 text-white bg-transparent hover:bg-white/10 hover:border-white/50 px-8 py-6 text-base font-semibold rounded-xl"
+                  className="border-2 border-text-on-dark/30 text-text-on-dark bg-transparent hover:bg-text-on-dark/10 hover:border-text-on-dark/50 px-8 py-6 text-base font-semibold rounded-xl"
                 >
                   <a href={`tel:${program.phone}`} className="flex items-center gap-2">
                     <Icon icon="solar:phone-calling-bold" className="w-5 h-5" />
@@ -144,36 +144,36 @@ export const ProgramSection = () => {
           transition={{ duration: 0.6, delay: 0.3 }}
           className="max-w-4xl mx-auto mt-6"
         >
-          <div className="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl rounded-3xl p-6 md:p-8 border border-white/20">
+          <div className="bg-gradient-to-br from-text-on-dark/10 to-text-on-dark/5 backdrop-blur-xl rounded-3xl p-6 md:p-8 border border-text-on-dark/20">
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 rounded-xl bg-teal-500/20 border border-teal-400/30 flex items-center justify-center">
-                <Icon icon="solar:clock-circle-bold" className="w-5 h-5 text-teal-300" />
+              <div className="w-10 h-10 rounded-xl bg-primary-muted border border-primary/30 flex items-center justify-center">
+                <Icon icon="solar:clock-circle-bold" className="w-5 h-5 text-primary" />
               </div>
-              <h3 className="text-lg md:text-xl font-bold text-white">이용시간 안내</h3>
+              <h3 className="text-lg md:text-xl font-bold text-text-on-dark">이용시간 안내</h3>
             </div>
 
             <div className="grid md:grid-cols-2 gap-4">
               {hours.map((hour) => {
                 const isWeekday = hour.schedule_type === 'weekday';
                 const badgeClass = isWeekday
-                  ? 'bg-teal-500/20 border-teal-400/30'
-                  : 'bg-cyan-500/20 border-cyan-400/30';
-                const textClass = isWeekday ? 'text-teal-200' : 'text-cyan-200';
+                  ? 'bg-primary-muted border-primary/30'
+                  : 'bg-brand-cyan/20 border-brand-cyan/30';
+                const textClass = isWeekday ? 'text-primary' : 'text-brand-cyan';
 
                 return (
-                  <div key={hour.schedule_type} className="bg-white/5 border border-white/10 rounded-2xl p-5">
+                  <div key={hour.schedule_type} className="bg-text-on-dark/5 border border-text-on-dark/10 rounded-2xl p-5">
                     <div className={`inline-flex items-center gap-2 px-3 py-1.5 ${badgeClass} rounded-full mb-4`}>
                       <span className={`${textClass} font-bold text-sm`}>{hour.schedule_label}</span>
                     </div>
                     <div className="space-y-2.5">
                       <div className="flex items-center justify-between">
-                        <span className="text-slate-400 text-sm">운영 시간</span>
-                        <span className="text-white font-semibold">{hour.operating_hours}</span>
+                        <span className="text-text-muted text-sm">운영 시간</span>
+                        <span className="text-text-on-dark font-semibold">{hour.operating_hours}</span>
                       </div>
                       {hour.study_hours && (
                         <div className="flex items-center justify-between">
-                          <span className="text-slate-400 text-sm">학습 시간</span>
-                          <span className="text-white font-semibold">{hour.study_hours}</span>
+                          <span className="text-text-muted text-sm">학습 시간</span>
+                          <span className="text-text-on-dark font-semibold">{hour.study_hours}</span>
                         </div>
                       )}
                     </div>

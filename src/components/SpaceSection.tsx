@@ -91,7 +91,7 @@ export const SpaceSection = () => {
   );
 
   return (
-    <section id="space" className="section-padding relative bg-gradient-to-b from-white via-slate-50 to-white">
+    <section id="space" className="section-padding relative bg-gradient-to-b from-background via-surface-muted to-background">
       <div className="container mx-auto px-4 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -100,14 +100,14 @@ export const SpaceSection = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-14"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-teal-50 border border-teal-200 mb-6">
-            <Icon icon="solar:buildings-2-bold" className="w-4 h-4 text-teal-600" />
-            <span className="text-teal-700 text-sm font-semibold">{space.badge}</span>
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary-muted border border-primary/20 mb-6">
+            <Icon icon="solar:buildings-2-bold" className="w-4 h-4 text-primary" />
+            <span className="text-primary font-semibold text-sm">{space.badge}</span>
           </div>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-5">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-5">
             {space.title_1} <span className="text-gradient">{space.title_2}</span>{space.title_3}
           </h2>
-          <p className="text-slate-600 max-w-xl mx-auto text-base md:text-lg">
+          <p className="text-muted-foreground max-w-xl mx-auto text-base md:text-lg">
             {space.description}
           </p>
         </motion.div>
@@ -124,7 +124,7 @@ export const SpaceSection = () => {
           aria-label="프리미엄 공간 이미지 캐러셀"
         >
           {/* Main Image */}
-          <div className="relative aspect-[16/9] rounded-3xl overflow-hidden shadow-2xl border border-slate-200">
+          <div className="relative aspect-[16/9] rounded-3xl overflow-hidden shadow-2xl border border-border">
             <AnimatePresence mode="wait">
               <motion.div
                 key={currentIndex}
@@ -143,7 +143,7 @@ export const SpaceSection = () => {
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
                   />
                 )}
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/20 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-surface-dark/80 via-surface-dark/20 to-transparent" />
               </motion.div>
             </AnimatePresence>
 
@@ -157,7 +157,7 @@ export const SpaceSection = () => {
                   exit={{ opacity: 0, y: -20 }}
                   transition={{ duration: 0.4 }}
                 >
-                  <span className="inline-block px-3 py-1 bg-teal-500 text-white text-xs font-bold rounded-full mb-4">
+                  <span className="inline-block px-3 py-1 bg-primary text-primary-foreground text-xs font-bold rounded-full mb-4">
                     {String(currentIndex + 1).padStart(2, "0")} / {String(spaces.length).padStart(2, "0")}
                   </span>
                   <h3 className="text-2xl md:text-4xl font-bold text-white mb-3">{spaces[currentIndex]?.title}</h3>
@@ -207,7 +207,7 @@ export const SpaceSection = () => {
                 tabIndex={index === currentIndex ? 0 : -1}
                 className={`relative flex-shrink-0 w-20 h-14 md:w-28 md:h-20 rounded-xl overflow-hidden transition-all duration-300 border-2 ${
                   index === currentIndex
-                    ? "border-teal-500 scale-105 shadow-lg"
+                    ? "border-primary scale-105 shadow-lg"
                     : "border-transparent opacity-60 hover:opacity-100"
                 }`}
               >

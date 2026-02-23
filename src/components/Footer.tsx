@@ -40,10 +40,10 @@ export const Footer = () => {
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       viewport={{ once: true }}
-      className="relative bg-slate-950 text-white overflow-hidden"
+      className="relative bg-surface-darkest text-text-on-dark overflow-hidden"
     >
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-teal-500/50 to-transparent" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,_var(--tw-gradient-stops))] from-slate-900 via-slate-950 to-slate-950 pointer-events-none" />
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,_var(--tw-gradient-stops))] from-surface-dark via-surface-darkest to-surface-darkest pointer-events-none" />
 
       <div className="container mx-auto px-4 relative z-10">
         <div className="py-12 lg:py-16">
@@ -62,10 +62,10 @@ export const Footer = () => {
                   className="h-9 w-auto brightness-0 invert opacity-90"
                 />
               </motion.div>
-              <p className="text-slate-400 text-sm leading-relaxed mb-6">
+              <p className="text-text-muted text-sm leading-relaxed mb-6">
                 학습관리의 첫 번째 완성형 시스템
                 <br />
-                <span className="text-teal-400">프리미엄 관리형 독서실</span>
+                <span className="text-primary">프리미엄 관리형 독서실</span>
               </p>
 
               <div className="flex gap-2" role="list" aria-label="소셜 미디어 링크">
@@ -74,7 +74,7 @@ export const Footer = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="StudyCore 인스타그램 (새 창에서 열림)"
-                  className="w-9 h-9 rounded-lg bg-slate-800/60 border border-slate-700/50 flex items-center justify-center text-slate-400 hover:text-white hover:bg-gradient-to-br hover:from-purple-500 hover:to-pink-500 hover:border-transparent transition-all duration-300"
+                  className="w-9 h-9 rounded-lg bg-surface-dark/60 border border-border/50 flex items-center justify-center text-text-muted hover:text-text-on-dark hover:bg-gradient-to-br hover:from-purple-500 hover:to-pink-500 hover:border-transparent transition-all duration-300"
                   whileHover={{ y: -2, scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
@@ -85,7 +85,7 @@ export const Footer = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="StudyCore 카카오톡 채널 (새 창에서 열림)"
-                  className="w-9 h-9 rounded-lg bg-slate-800/60 border border-slate-700/50 flex items-center justify-center text-slate-400 hover:text-slate-900 hover:bg-[#FEE500] hover:border-transparent transition-all duration-300"
+                  className="w-9 h-9 rounded-lg bg-surface-dark/60 border border-border/50 flex items-center justify-center text-text-muted hover:text-surface-dark hover:bg-[#FEE500] hover:border-transparent transition-all duration-300"
                   whileHover={{ y: -2, scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
@@ -95,8 +95,8 @@ export const Footer = () => {
             </div>
 
             <div>
-              <h4 className="text-sm font-semibold text-white mb-5 flex items-center gap-2">
-                <span className="w-1 h-4 bg-teal-500 rounded-full" />
+              <h4 className="text-sm font-semibold text-text-on-dark mb-5 flex items-center gap-2">
+                <span className="w-1 h-4 bg-primary rounded-full" />
                 바로가기
               </h4>
               <ul className="space-y-3">
@@ -104,7 +104,7 @@ export const Footer = () => {
                   <li key={index}>
                     <Link
                       href={link.href}
-                      className="text-slate-400 text-sm hover:text-teal-400 transition-colors inline-flex items-center gap-1.5 group"
+                      className="text-text-muted text-sm hover:text-primary transition-colors inline-flex items-center gap-1.5 group"
                     >
                       <Icon
                         icon="solar:arrow-right-linear"
@@ -118,8 +118,8 @@ export const Footer = () => {
             </div>
 
             <div>
-              <h4 className="text-sm font-semibold text-white mb-5 flex items-center gap-2">
-                <span className="w-1 h-4 bg-teal-500 rounded-full" />
+              <h4 className="text-sm font-semibold text-text-on-dark mb-5 flex items-center gap-2">
+                <span className="w-1 h-4 bg-primary rounded-full" />
                 연락처
               </h4>
               <ul className="space-y-3">
@@ -129,10 +129,10 @@ export const Footer = () => {
                       href={item.href}
                       target={item.external ? "_blank" : undefined}
                       rel={item.external ? "noopener noreferrer" : undefined}
-                      className="flex items-center gap-3 text-slate-400 text-sm hover:text-teal-400 transition-colors group"
+                      className="flex items-center gap-3 text-text-muted text-sm hover:text-primary transition-colors group"
                     >
-                      <span className="w-7 h-7 rounded-md bg-slate-800/60 border border-slate-700/50 flex items-center justify-center group-hover:bg-teal-500/10 group-hover:border-teal-500/30 transition-all duration-200">
-                        <Icon icon={item.icon} className="w-3.5 h-3.5 text-teal-400" />
+                      <span className="w-7 h-7 rounded-md bg-surface-dark/60 border border-border/50 flex items-center justify-center group-hover:bg-primary/10 group-hover:border-primary/30 transition-all duration-200">
+                        <Icon icon={item.icon} className="w-3.5 h-3.5 text-primary" />
                       </span>
                       <span className="truncate">{item.label}</span>
                     </a>
@@ -142,13 +142,13 @@ export const Footer = () => {
             </div>
 
             <div>
-              <h4 className="text-sm font-semibold text-white mb-5 flex items-center gap-2">
-                <span className="w-1 h-4 bg-teal-500 rounded-full" />
+              <h4 className="text-sm font-semibold text-text-on-dark mb-5 flex items-center gap-2">
+                <span className="w-1 h-4 bg-primary rounded-full" />
                 오시는 길
               </h4>
-              <div className="flex items-start gap-3 text-slate-400 text-sm mb-4">
-                <span className="w-7 h-7 rounded-md bg-slate-800/60 border border-slate-700/50 flex items-center justify-center flex-shrink-0">
-                  <Icon icon="solar:map-point-bold" className="w-3.5 h-3.5 text-teal-400" />
+              <div className="flex items-start gap-3 text-text-muted text-sm mb-4">
+                <span className="w-7 h-7 rounded-md bg-surface-dark/60 border border-border/50 flex items-center justify-center flex-shrink-0">
+                  <Icon icon="solar:map-point-bold" className="w-3.5 h-3.5 text-primary" />
                 </span>
                 <p className="leading-relaxed">
                   광주광역시 광산구
@@ -185,42 +185,42 @@ export const Footer = () => {
           </div>
         </div>
 
-        <div className="border-t border-slate-800/60 py-6">
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 text-xs text-slate-500">
+        <div className="border-t border-border/60 py-6">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 text-xs text-text-subtle">
             <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
               <span>
-                <span className="text-slate-400">상호명</span> 스터디코어 1.0
+                <span className="text-text-muted">상호명</span> 스터디코어 1.0
               </span>
-              <span className="hidden sm:inline text-slate-700">|</span>
+              <span className="hidden sm:inline text-border">|</span>
               <span>
-                <span className="text-slate-400">대표자</span> 정원석
+                <span className="text-text-muted">대표자</span> 정원석
               </span>
-              <span className="hidden sm:inline text-slate-700">|</span>
+              <span className="hidden sm:inline text-border">|</span>
               <span>
-                <span className="text-slate-400">사업자등록번호</span> 488-29-01855
+                <span className="text-text-muted">사업자등록번호</span> 488-29-01855
               </span>
             </div>
             <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
               <span>
-                <span className="text-slate-400">개인정보보호책임자</span> 정원석
+                <span className="text-text-muted">개인정보보호책임자</span> 정원석
               </span>
-              <span className="hidden sm:inline text-slate-700">|</span>
+              <span className="hidden sm:inline text-border">|</span>
               <span>
-                <span className="text-slate-400">이메일</span> studycore10@naver.com
+                <span className="text-text-muted">이메일</span> studycore10@naver.com
               </span>
             </div>
           </div>
         </div>
 
-        <div className="border-t border-slate-800/40 py-5">
+        <div className="border-t border-border/40 py-5">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-3">
-            <p className="text-slate-600 text-xs">© 2025 Study Core 1.0. All rights reserved.</p>
+            <p className="text-text-subtle text-xs">© 2025 Study Core 1.0. All rights reserved.</p>
             <div className="flex items-center gap-4 text-xs">
-              <Link href="/terms" className="text-slate-500 hover:text-teal-400 transition-colors">
+              <Link href="/terms" className="text-text-subtle hover:text-primary transition-colors">
                 이용약관
               </Link>
-              <span className="w-px h-3 bg-slate-700" />
-              <Link href="/privacy" className="text-slate-500 hover:text-teal-400 transition-colors">
+              <span className="w-px h-3 bg-border" />
+              <Link href="/privacy" className="text-text-subtle hover:text-primary transition-colors">
                 개인정보처리방침
               </Link>
             </div>

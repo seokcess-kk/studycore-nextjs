@@ -143,11 +143,11 @@ export const ContactSection = () => {
   };
 
   return (
-    <section id="contact" className="section-padding relative bg-slate-900 overflow-hidden">
+    <section id="contact" className="section-padding relative bg-surface-dark overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0 opacity-30">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-teal-500/20 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-cyan-500/20 rounded-full blur-3xl" />
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-brand-cyan/20 rounded-full blur-3xl" />
       </div>
 
       <div className="container mx-auto px-4 relative z-10">
@@ -158,12 +158,12 @@ export const ContactSection = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-teal-500/10 border border-teal-500/30 mb-6">
-            <Icon icon="solar:chat-round-dots-bold" className="w-4 h-4 text-teal-400" />
-            <span className="text-teal-400 text-sm font-semibold">CONTACT</span>
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/30 mb-6">
+            <Icon icon="solar:chat-round-dots-bold" className="w-4 h-4 text-primary" />
+            <span className="text-primary text-sm font-semibold">CONTACT</span>
           </div>
-          <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">상담 신청</h2>
-          <p className="text-slate-400 max-w-lg mx-auto">
+          <h2 className="text-3xl md:text-5xl font-bold text-text-on-dark mb-6">상담 신청</h2>
+          <p className="text-text-muted max-w-lg mx-auto">
             궁금한 점이 있으시면 언제든 문의해주세요. 친절하게 안내해드립니다.
           </p>
         </motion.div>
@@ -176,23 +176,23 @@ export const ContactSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="bg-white rounded-3xl p-8 md:p-10 shadow-2xl mb-8"
+            className="bg-card rounded-3xl p-8 md:p-10 shadow-2xl mb-8"
           >
             <div className="flex items-center gap-3 mb-8">
-              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-teal-500 to-cyan-500 flex items-center justify-center">
-                <Icon icon="solar:document-add-bold" className="w-6 h-6 text-white" />
+              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary to-brand-cyan flex items-center justify-center">
+                <Icon icon="solar:document-add-bold" className="w-6 h-6 text-primary-foreground" />
               </div>
               <div>
-                <h3 className="text-xl font-bold text-slate-900">상담 신청서</h3>
-                <p className="text-sm text-slate-500">아래 양식을 작성해주세요</p>
+                <h3 className="text-xl font-bold text-card-foreground">상담 신청서</h3>
+                <p className="text-sm text-muted-foreground">아래 양식을 작성해주세요</p>
               </div>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
-                  <Label htmlFor="studentName" className="text-slate-700 font-semibold flex items-center gap-2 mb-2">
-                    <Icon icon="solar:user-bold" className="w-4 h-4 text-teal-600" />
+                  <Label htmlFor="studentName" className="text-card-foreground font-semibold flex items-center gap-2 mb-2">
+                    <Icon icon="solar:user-bold" className="w-4 h-4 text-primary" />
                     학생 이름 <span className="text-red-500">*</span>
                   </Label>
                   <Input
@@ -202,8 +202,8 @@ export const ContactSection = () => {
                     onBlur={() => handleBlur("studentName")}
                     aria-invalid={touched.studentName && !!fieldErrors.studentName}
                     aria-describedby={fieldErrors.studentName ? "studentName-error" : undefined}
-                    className={`bg-slate-50 border-slate-200 focus:border-teal-500 focus:ring-teal-500/20 rounded-xl py-6 ${
-                      touched.studentName && fieldErrors.studentName ? "border-red-500 focus:border-red-500" : ""
+                    className={`bg-secondary border-border focus:border-primary focus:ring-ring/20 rounded-xl py-6 ${
+                      touched.studentName && fieldErrors.studentName ? "border-destructive focus:border-destructive" : ""
                     }`}
                     placeholder="홍길동"
                   />
@@ -216,8 +216,8 @@ export const ContactSection = () => {
                 </div>
 
                 <div>
-                  <Label htmlFor="schoolGrade" className="text-slate-700 font-semibold flex items-center gap-2 mb-2">
-                    <Icon icon="solar:diploma-bold" className="w-4 h-4 text-teal-600" />
+                  <Label htmlFor="schoolGrade" className="text-card-foreground font-semibold flex items-center gap-2 mb-2">
+                    <Icon icon="solar:diploma-bold" className="w-4 h-4 text-primary" />
                     학교/학년 <span className="text-red-500">*</span>
                   </Label>
                   <Input
@@ -227,8 +227,8 @@ export const ContactSection = () => {
                     onBlur={() => handleBlur("schoolGrade")}
                     aria-invalid={touched.schoolGrade && !!fieldErrors.schoolGrade}
                     aria-describedby={fieldErrors.schoolGrade ? "schoolGrade-error" : undefined}
-                    className={`bg-slate-50 border-slate-200 focus:border-teal-500 focus:ring-teal-500/20 rounded-xl py-6 ${
-                      touched.schoolGrade && fieldErrors.schoolGrade ? "border-red-500 focus:border-red-500" : ""
+                    className={`bg-secondary border-border focus:border-primary focus:ring-ring/20 rounded-xl py-6 ${
+                      touched.schoolGrade && fieldErrors.schoolGrade ? "border-destructive focus:border-destructive" : ""
                     }`}
                     placeholder="예) OO고등학교 2학년"
                   />
@@ -241,8 +241,8 @@ export const ContactSection = () => {
                 </div>
 
                 <div>
-                  <Label htmlFor="studentPhone" className="text-slate-700 font-semibold flex items-center gap-2 mb-2">
-                    <Icon icon="solar:phone-bold" className="w-4 h-4 text-teal-600" />
+                  <Label htmlFor="studentPhone" className="text-card-foreground font-semibold flex items-center gap-2 mb-2">
+                    <Icon icon="solar:phone-bold" className="w-4 h-4 text-primary" />
                     학생 연락처 <span className="text-red-500">*</span>
                   </Label>
                   <Input
@@ -253,8 +253,8 @@ export const ContactSection = () => {
                     onBlur={() => handleBlur("studentPhone")}
                     aria-invalid={touched.studentPhone && !!fieldErrors.studentPhone}
                     aria-describedby={fieldErrors.studentPhone ? "studentPhone-error" : undefined}
-                    className={`bg-slate-50 border-slate-200 focus:border-teal-500 focus:ring-teal-500/20 rounded-xl py-6 ${
-                      touched.studentPhone && fieldErrors.studentPhone ? "border-red-500 focus:border-red-500" : ""
+                    className={`bg-secondary border-border focus:border-primary focus:ring-ring/20 rounded-xl py-6 ${
+                      touched.studentPhone && fieldErrors.studentPhone ? "border-destructive focus:border-destructive" : ""
                     }`}
                     placeholder="010-0000-0000"
                   />
@@ -267,8 +267,8 @@ export const ContactSection = () => {
                 </div>
 
                 <div>
-                  <Label htmlFor="parentPhone" className="text-slate-700 font-semibold flex items-center gap-2 mb-2">
-                    <Icon icon="solar:phone-calling-bold" className="w-4 h-4 text-teal-600" />
+                  <Label htmlFor="parentPhone" className="text-card-foreground font-semibold flex items-center gap-2 mb-2">
+                    <Icon icon="solar:phone-calling-bold" className="w-4 h-4 text-primary" />
                     학부모 연락처
                   </Label>
                   <Input
@@ -279,8 +279,8 @@ export const ContactSection = () => {
                     onBlur={() => handleBlur("parentPhone")}
                     aria-invalid={touched.parentPhone && !!fieldErrors.parentPhone}
                     aria-describedby={fieldErrors.parentPhone ? "parentPhone-error" : undefined}
-                    className={`bg-slate-50 border-slate-200 focus:border-teal-500 focus:ring-teal-500/20 rounded-xl py-6 ${
-                      touched.parentPhone && fieldErrors.parentPhone ? "border-red-500 focus:border-red-500" : ""
+                    className={`bg-secondary border-border focus:border-primary focus:ring-ring/20 rounded-xl py-6 ${
+                      touched.parentPhone && fieldErrors.parentPhone ? "border-destructive focus:border-destructive" : ""
                     }`}
                     placeholder="010-0000-0000"
                   />
@@ -293,21 +293,21 @@ export const ContactSection = () => {
                 </div>
               </div>
 
-              <div className="flex flex-col sm:flex-row sm:items-center gap-4 py-4 px-5 bg-slate-50 rounded-xl">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-4 py-4 px-5 bg-secondary rounded-xl">
                 <div className="flex flex-col gap-1">
                   <div className="flex items-center gap-3">
-                    <Label className="text-sm text-slate-600 flex items-center gap-2 whitespace-nowrap">
-                      <Icon icon="solar:chef-hat-bold" className="w-4 h-4 text-slate-400" />
+                    <Label className="text-sm text-muted-foreground flex items-center gap-2 whitespace-nowrap">
+                      <Icon icon="solar:chef-hat-bold" className="w-4 h-4 text-muted-foreground" />
                       도시락 신청
                     </Label>
                     <Select
                       value={formData.mealRequest}
                       onValueChange={(value) => setFormData({ ...formData, mealRequest: value })}
                     >
-                      <SelectTrigger className="w-[130px] bg-white border-slate-200 focus:border-teal-500 focus:ring-teal-500/20 rounded-lg">
+                      <SelectTrigger className="w-[130px] bg-card border-border focus:border-primary focus:ring-ring/20 rounded-lg">
                         <SelectValue placeholder="선택" />
                       </SelectTrigger>
-                      <SelectContent className="bg-white border-slate-200 z-50">
+                      <SelectContent className="bg-card border-border z-50">
                         {mealOptions.map((option) => (
                           <SelectItem key={option.value} value={option.value}>
                             {option.label}
@@ -316,7 +316,7 @@ export const ContactSection = () => {
                       </SelectContent>
                     </Select>
                   </div>
-                  <p className="text-xs text-slate-400 pl-6">수요조사이며, 정식 신청은 별도 안내됩니다.</p>
+                  <p className="text-xs text-muted-foreground pl-6">수요조사이며, 정식 신청은 별도 안내됩니다.</p>
                 </div>
                 <br />
                 <div className="flex items-start space-x-3">
@@ -324,45 +324,45 @@ export const ContactSection = () => {
                     id="privacyConsent"
                     checked={formData.privacyConsent}
                     onCheckedChange={(checked) => setFormData({ ...formData, privacyConsent: checked as boolean })}
-                    className="border-slate-300 data-[state=checked]:bg-teal-600 data-[state=checked]:border-teal-600 mt-0.5"
+                    className="border-border data-[state=checked]:bg-primary data-[state=checked]:border-primary mt-0.5"
                   />
                   <div className="flex flex-wrap items-center gap-1">
-                    <Label htmlFor="privacyConsent" className="text-sm text-slate-600 cursor-pointer">
+                    <Label htmlFor="privacyConsent" className="text-sm text-muted-foreground cursor-pointer">
                       <span className="text-red-500 font-semibold">[필수]</span> 개인정보 수집 및 이용에 동의합니다.
                     </Label>
                     <Dialog>
                       <DialogTrigger asChild>
-                        <button type="button" className="text-teal-600 text-sm hover:underline">
+                        <button type="button" className="text-primary text-sm hover:underline">
                           (내용 보기)
                         </button>
                       </DialogTrigger>
-                      <DialogContent className="max-w-2xl bg-white">
+                      <DialogContent className="max-w-2xl bg-card">
                         <DialogHeader>
-                          <DialogTitle className="text-lg font-bold text-slate-900">
+                          <DialogTitle className="text-lg font-bold text-card-foreground">
                             개인정보 수집 및 이용 동의
                           </DialogTitle>
                         </DialogHeader>
                         <ScrollArea className="max-h-[60vh] pr-4">
-                          <div className="text-sm text-slate-600 space-y-4">
+                          <div className="text-sm text-muted-foreground space-y-4">
                             <section>
-                              <h3 className="font-semibold text-slate-800 mb-2">1. 수집하는 개인정보 항목</h3>
+                              <h3 className="font-semibold text-card-foreground mb-2">1. 수집하는 개인정보 항목</h3>
                               <p>• 필수항목: 학생 이름, 학교/학년, 학생 연락처</p>
                               <p>• 선택항목: 학부모 연락처, 급식 신청 여부</p>
                             </section>
                             <section>
-                              <h3 className="font-semibold text-slate-800 mb-2">2. 개인정보의 수집 및 이용 목적</h3>
+                              <h3 className="font-semibold text-card-foreground mb-2">2. 개인정보의 수집 및 이용 목적</h3>
                               <p>• 상담 신청 및 문의에 대한 응대</p>
                               <p>• 서비스 제공 및 이용자 관리</p>
                             </section>
                             <section>
-                              <h3 className="font-semibold text-slate-800 mb-2">3. 개인정보의 보유 및 이용 기간</h3>
+                              <h3 className="font-semibold text-card-foreground mb-2">3. 개인정보의 보유 및 이용 기간</h3>
                               <p>
                                 수집된 개인정보는 수집 목적이 달성된 후 지체 없이 파기합니다. 단, 관련 법령에 따라
                                 보존이 필요한 경우 해당 기간 동안 보관합니다.
                               </p>
                             </section>
                             <section>
-                              <h3 className="font-semibold text-slate-800 mb-2">4. 동의 거부권 및 불이익</h3>
+                              <h3 className="font-semibold text-card-foreground mb-2">4. 동의 거부권 및 불이익</h3>
                               <p>
                                 귀하는 개인정보 수집 및 이용에 대한 동의를 거부할 권리가 있습니다. 다만, 필수 항목에
                                 대한 동의를 거부하실 경우 상담 신청이 제한됩니다.
@@ -379,7 +379,7 @@ export const ContactSection = () => {
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full sm:w-auto sm:px-14 bg-gradient-to-r from-teal-600 to-teal-500 text-white hover:shadow-xl hover:shadow-teal-500/25 hover:-translate-y-0.5 transition-all duration-300 py-6 text-base font-bold rounded-xl"
+                className="w-full sm:w-auto sm:px-14 bg-gradient-to-r from-primary to-primary-hover text-primary-foreground hover:shadow-xl hover:shadow-primary/25 hover:-translate-y-0.5 transition-all duration-300 py-6 text-base font-bold rounded-xl"
               >
                 {isSubmitting ? (
                   <span className="flex items-center gap-2">
@@ -407,12 +407,12 @@ export const ContactSection = () => {
             {/* Map Header with External Links */}
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-teal-500 to-cyan-500 flex items-center justify-center">
-                  <Icon icon="solar:map-point-bold" className="w-5 h-5 text-white" />
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-brand-cyan flex items-center justify-center">
+                  <Icon icon="solar:map-point-bold" className="w-5 h-5 text-primary-foreground" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold text-white">오시는 길</h3>
-                  <p className="text-sm text-slate-400">광주광역시 광산구 임방울대로 330 애플타워 10층</p>
+                  <h3 className="text-lg font-bold text-text-on-dark">오시는 길</h3>
+                  <p className="text-sm text-text-muted">광주광역시 광산구 임방울대로 330 애플타워 10층</p>
                 </div>
               </div>
 
@@ -449,7 +449,7 @@ export const ContactSection = () => {
             </div>
 
             {/* Google Maps Embed */}
-            <div className="rounded-2xl overflow-hidden border border-slate-700/50 shadow-lg h-[300px]">
+            <div className="rounded-2xl overflow-hidden border border-border/50 shadow-lg h-[300px]">
               <iframe
                 title="Study Core Location"
                 className="w-full h-full grayscale-[0.3] hover:grayscale-0 transition-all duration-500"

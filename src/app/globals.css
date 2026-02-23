@@ -57,6 +57,24 @@
   --color-sidebar-border: oklch(90% 0.01 260);
   --color-sidebar-ring: oklch(55% 0.15 175);
 
+  /* ===== Surface Colors (Dark sections) ===== */
+  --color-surface-dark: oklch(15% 0.02 260);
+  --color-surface-darker: oklch(12% 0.02 260);
+  --color-surface-darkest: oklch(8% 0.02 260);
+
+  /* ===== Surface Colors (Light sections) ===== */
+  --color-surface-light: oklch(98% 0.005 260);
+  --color-surface-muted: oklch(96% 0.005 260);
+
+  /* ===== Text Variants ===== */
+  --color-text-muted: oklch(65% 0.02 260);
+  --color-text-subtle: oklch(75% 0.01 260);
+  --color-text-on-dark: oklch(98% 0.005 260);
+  --color-text-on-dark-muted: oklch(85% 0.01 260);
+
+  /* ===== Brand Extended Colors ===== */
+  --color-brand-cyan: oklch(65% 0.15 195);
+
   /* ===== Gradient Colors ===== */
   --color-gradient-start: oklch(50% 0.14 175);
   --color-gradient-mid: oklch(55% 0.15 175);
@@ -183,6 +201,22 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 .dark {
+  /* Surface Colors (Dark mode - inverted) */
+  --color-surface-dark: oklch(15% 0.02 260);
+  --color-surface-darker: oklch(12% 0.02 260);
+  --color-surface-darkest: oklch(8% 0.02 260);
+  --color-surface-light: oklch(22% 0.02 260);
+  --color-surface-muted: oklch(18% 0.02 260);
+
+  /* Text Variants (Dark mode) */
+  --color-text-muted: oklch(70% 0.02 260);
+  --color-text-subtle: oklch(60% 0.01 260);
+  --color-text-on-dark: oklch(98% 0.005 260);
+  --color-text-on-dark-muted: oklch(85% 0.01 260);
+
+  /* Brand Extended */
+  --color-brand-cyan: oklch(70% 0.15 195);
+
   --color-background: oklch(15% 0.02 260);
   --color-foreground: oklch(98% 0.005 260);
 
