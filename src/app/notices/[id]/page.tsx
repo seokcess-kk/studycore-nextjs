@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import type { Metadata } from 'next';
+import Script from 'next/script';
 
 interface NoticePageProps {
   params: Promise<{ id: string }>;
@@ -16,17 +17,41 @@ export async function generateMetadata({ params }: NoticePageProps): Promise<Met
   const supabase = await createClient();
   const { data: notice } = await supabase
     .from('notices')
-    .select('title')
+    .select('title, content, created_at')
     .eq('id', id)
     .single();
 
   if (!notice) {
-    return { title: '공지사항을 찾을 수 없습니다' };
+    return {
+      title: '공지사항을 찾을 수 없습니다',
+      robots: { index: false, follow: false },
+    };
   }
+
+  const description =
+    notice.content && notice.content.length > 155
+      ? notice.content.substring(0, 152) + '...'
+      : notice.content || notice.title;
 
   return {
     title: notice.title,
-    description: `STUDYCORE 공지사항: ${notice.title}`,
+    description: `STUDYCORE 공지: ${description}`,
+    alternates: {
+      canonical: `/notices/${id}`,
+    },
+    openGraph: {
+      title: notice.title,
+      description: description,
+      type: 'article',
+      publishedTime: notice.created_at,
+      authors: ['STUDYCORE'],
+      url: `https://studycore.kr/notices/${id}`,
+    },
+    twitter: {
+      card: 'summary',
+      title: notice.title,
+      description: description,
+    },
   };
 }
 
@@ -47,8 +72,34 @@ export default async function NoticePage({ params }: NoticePageProps) {
   // 조회수 증가 (비동기, 에러 무시)
   supabase.rpc('increment_notice_view_count', { notice_id: id }).then();
 
+  const articleJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: notice.title,
+    datePublished: notice.created_at,
+    dateModified: notice.updated_at || notice.created_at,
+    author: {
+      '@type': 'Organization',
+      name: 'STUDYCORE',
+      url: 'https://studycore.kr',
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'STUDYCORE 1.0',
+    },
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': `https://studycore.kr/notices/${id}`,
+    },
+  };
+
   return (
     <>
+      <Script
+        id="article-json-ld"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
+      />
       <Header />
       <main className="min-h-screen bg-slate-900 pt-20">
         <div className="container mx-auto px-4 py-12">

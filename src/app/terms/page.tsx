@@ -3,8 +3,18 @@ import { Footer } from '@/components/Footer';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: '이용약관',
-  description: 'STUDYCORE 1.0 이용약관',
+  title: '이용약관 - 서비스 이용 안내',
+  description:
+    'STUDYCORE 1.0 이용약관입니다. 관리형 독서실 서비스 이용에 관한 권리, 의무, 책임사항 및 기타 필요한 사항을 안내합니다. 서비스 이용 전 반드시 확인해주세요.',
+  alternates: {
+    canonical: '/terms',
+  },
+  openGraph: {
+    title: '이용약관 | STUDYCORE 1.0',
+    description: 'STUDYCORE 1.0 서비스 이용약관',
+    url: 'https://studycore.kr/terms',
+    type: 'website',
+  },
 };
 
 export default function TermsPage() {

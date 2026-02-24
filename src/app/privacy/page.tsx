@@ -3,8 +3,18 @@ import { Footer } from '@/components/Footer';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: '개인정보처리방침',
-  description: 'STUDYCORE 1.0 개인정보처리방침',
+  title: '개인정보처리방침 - 개인정보 보호 안내',
+  description:
+    'STUDYCORE 1.0 개인정보처리방침입니다. 개인정보의 수집, 이용, 보유, 파기에 관한 정책과 정보주체의 권리 행사 방법을 안내합니다. 개인정보보호법을 준수합니다.',
+  alternates: {
+    canonical: '/privacy',
+  },
+  openGraph: {
+    title: '개인정보처리방침 | STUDYCORE 1.0',
+    description: 'STUDYCORE 1.0 개인정보처리방침',
+    url: 'https://studycore.kr/privacy',
+    type: 'website',
+  },
 };
 
 export default function PrivacyPage() {

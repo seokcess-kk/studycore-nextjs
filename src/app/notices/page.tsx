@@ -5,8 +5,23 @@ import { NoticeList } from '@/components/NoticeList';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: '공지사항',
-  description: 'STUDYCORE 1.0 공지사항 및 소식',
+  title: '공지사항 - 스터디코어 소식 및 이벤트 안내',
+  description:
+    'STUDYCORE 1.0 공지사항 페이지입니다. 독서실 운영 안내, 시설 업데이트, 프로모션 및 이벤트 정보를 확인하세요. 학습환경 개선 소식을 가장 먼저 만나보세요.',
+  alternates: {
+    canonical: '/notices',
+  },
+  openGraph: {
+    title: '공지사항 | STUDYCORE 1.0',
+    description: '스터디코어 공지사항 및 이벤트 안내. 최신 소식을 확인하세요.',
+    url: 'https://studycore.kr/notices',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary',
+    title: '공지사항 | STUDYCORE 1.0',
+    description: '스터디코어 공지사항 및 이벤트 안내',
+  },
 };
 
 export default function NoticesPage() {

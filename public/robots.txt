@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /auth
+Disallow: /api
+Disallow: /reset-password
+
+Sitemap: https://studycore.kr/sitemap.xml
