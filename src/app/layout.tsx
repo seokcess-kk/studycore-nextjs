@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from 'next';
 import { Providers } from './providers';
 import { Toaster } from '@/components/ui/sonner';
+import { ScrollProgress } from '@/components/ScrollProgress';
+import { MobileFloatingCTA } from '@/components/MobileFloatingCTA';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -41,7 +43,9 @@ export default function RootLayout({
     <html lang="ko" suppressHydrationWarning>
       <body className="min-h-screen bg-background font-sans antialiased">
         <Providers>
+          <ScrollProgress />
           {children}
+          <MobileFloatingCTA />
           <Toaster position="top-center" richColors />
         </Providers>
       </body>

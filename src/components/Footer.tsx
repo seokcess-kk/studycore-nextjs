@@ -68,28 +68,28 @@ export const Footer = () => {
                 <span className="text-primary">프리미엄 관리형 독서실</span>
               </p>
 
-              <div className="flex gap-2" role="list" aria-label="소셜 미디어 링크">
+              <div className="flex gap-3" role="list" aria-label="소셜 미디어 링크">
                 <motion.a
                   href="https://www.instagram.com/studycore1.0_official/"
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="StudyCore 인스타그램 (새 창에서 열림)"
-                  className="w-9 h-9 rounded-lg bg-surface-dark/60 border border-border/50 flex items-center justify-center text-text-muted hover:text-text-on-dark hover:bg-gradient-to-br hover:from-purple-500 hover:to-pink-500 hover:border-transparent transition-all duration-300"
+                  className="w-10 h-10 rounded-lg bg-surface-dark/60 border border-border/50 flex items-center justify-center text-text-muted hover:text-text-on-dark hover:bg-gradient-to-br hover:from-purple-500 hover:to-pink-500 hover:border-transparent transition-all duration-300"
                   whileHover={{ y: -2, scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  <Icon icon="mdi:instagram" className="w-4 h-4" aria-hidden="true" />
+                  <Icon icon="mdi:instagram" className="w-5 h-5" aria-hidden="true" />
                 </motion.a>
                 <motion.a
                   href="http://pf.kakao.com/_execQn"
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="StudyCore 카카오톡 채널 (새 창에서 열림)"
-                  className="w-9 h-9 rounded-lg bg-surface-dark/60 border border-border/50 flex items-center justify-center text-text-muted hover:text-surface-dark hover:bg-[#FEE500] hover:border-transparent transition-all duration-300"
+                  className="w-10 h-10 rounded-lg bg-surface-dark/60 border border-border/50 flex items-center justify-center text-text-muted hover:text-surface-dark hover:bg-[#FEE500] hover:border-transparent transition-all duration-300"
                   whileHover={{ y: -2, scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  <Icon icon="simple-icons:kakaotalk" className="w-4 h-4" aria-hidden="true" />
+                  <Icon icon="simple-icons:kakaotalk" className="w-5 h-5" aria-hidden="true" />
                 </motion.a>
               </div>
             </div>
@@ -131,8 +131,8 @@ export const Footer = () => {
                       rel={item.external ? "noopener noreferrer" : undefined}
                       className="flex items-center gap-3 text-text-muted text-sm hover:text-primary transition-colors group"
                     >
-                      <span className="w-7 h-7 rounded-md bg-surface-dark/60 border border-border/50 flex items-center justify-center group-hover:bg-primary/10 group-hover:border-primary/30 transition-all duration-200">
-                        <Icon icon={item.icon} className="w-3.5 h-3.5 text-primary" />
+                      <span className="w-8 h-8 rounded-md bg-surface-dark/60 border border-border/50 flex items-center justify-center group-hover:bg-primary/10 group-hover:border-primary/30 transition-all duration-200">
+                        <Icon icon={item.icon} className="w-4 h-4 text-primary" />
                       </span>
                       <span className="truncate">{item.label}</span>
                     </a>
@@ -147,8 +147,8 @@ export const Footer = () => {
                 오시는 길
               </h4>
               <div className="flex items-start gap-3 text-text-muted text-sm mb-4">
-                <span className="w-7 h-7 rounded-md bg-surface-dark/60 border border-border/50 flex items-center justify-center flex-shrink-0">
-                  <Icon icon="solar:map-point-bold" className="w-3.5 h-3.5 text-primary" />
+                <span className="w-8 h-8 rounded-md bg-surface-dark/60 border border-border/50 flex items-center justify-center flex-shrink-0">
+                  <Icon icon="solar:map-point-bold" className="w-4 h-4 text-primary" />
                 </span>
                 <p className="leading-relaxed">
                   광주광역시 광산구

@@ -1,0 +1,225 @@
+{
+  "version": "2.0",
+  "lastUpdated": "2026-02-24T07:39:55.908Z",
+  "activeFeatures": [
+    "[id]",
+    "studycore-nextjs",
+    "ui"
+  ],
+  "primaryFeature": "[id]",
+  "features": {
+    "[id]": {
+      "phase": "do",
+      "phaseNumber": 3,
+      "matchRate": null,
+      "iterationCount": 0,
+      "requirements": [],
+      "documents": {},
+      "timestamps": {
+        "started": "2026-02-24T07:11:08.544Z",
+        "lastUpdated": "2026-02-24T07:11:08.544Z"
+      },
+      "lastFile": "C:\\Users\\assag\\solution\\studycore-nextjs\\src\\app\\notices\\[id]\\page.tsx"
+    },
+    "studycore-nextjs": {
+      "phase": "do",
+      "phaseNumber": 3,
+      "matchRate": null,
+      "iterationCount": 0,
+      "requirements": [],
+      "documents": {},
+      "timestamps": {
+        "started": "2026-02-24T07:11:30.074Z",
+        "lastUpdated": "2026-02-24T07:39:55.908Z"
+      },
+      "lastFile": "C:\\Users\\assag\\solution\\studycore-nextjs\\src\\hooks\\useTilt.ts"
+    },
+    "ui": {
+      "phase": "do",
+      "phaseNumber": 3,
+      "matchRate": null,
+      "iterationCount": 0,
+      "requirements": [],
+      "documents": {},
+      "timestamps": {
+        "started": "2026-02-24T07:35:52.677Z",
+        "lastUpdated": "2026-02-24T07:36:11.591Z"
+      },
+      "lastFile": "C:\\Users\\assag\\solution\\studycore-nextjs\\src\\components\\ui\\ripple.tsx"
+    }
+  },
+  "pipeline": {
+    "currentPhase": 1,
+    "level": "Dynamic",
+    "phaseHistory": []
+  },
+  "session": {
+    "startedAt": "2026-02-24T06:43:09.077Z",
+    "onboardingCompleted": false,
+    "lastActivity": "2026-02-24T07:39:55.908Z"
+  },
+  "history": [
+    {
+      "timestamp": "2026-02-24T07:11:08.544Z",
+      "feature": "[id]",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-24T07:11:30.074Z",
+      "feature": "studycore-nextjs",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-24T07:11:36.149Z",
+      "feature": "studycore-nextjs",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-24T07:33:52.878Z",
+      "feature": "studycore-nextjs",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-24T07:34:00.339Z",
+      "feature": "studycore-nextjs",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-24T07:34:06.291Z",
+      "feature": "studycore-nextjs",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-24T07:34:18.742Z",
+      "feature": "studycore-nextjs",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-24T07:34:25.121Z",
+      "feature": "studycore-nextjs",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-24T07:34:33.672Z",
+      "feature": "studycore-nextjs",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-24T07:34:39.824Z",
+      "feature": "studycore-nextjs",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-24T07:34:46.221Z",
+      "feature": "studycore-nextjs",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-24T07:34:52.857Z",
+      "feature": "studycore-nextjs",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-24T07:35:52.677Z",
+      "feature": "ui",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-24T07:36:11.591Z",
+      "feature": "ui",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-24T07:37:45.274Z",
+      "feature": "studycore-nextjs",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-24T07:37:53.262Z",
+      "feature": "studycore-nextjs",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-24T07:38:01.192Z",
+      "feature": "studycore-nextjs",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-24T07:38:10.509Z",
+      "feature": "studycore-nextjs",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-24T07:38:26.650Z",
+      "feature": "studycore-nextjs",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-24T07:38:33.684Z",
+      "feature": "studycore-nextjs",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-24T07:38:46.403Z",
+      "feature": "studycore-nextjs",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-24T07:38:52.875Z",
+      "feature": "studycore-nextjs",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-24T07:39:07.092Z",
+      "feature": "studycore-nextjs",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-24T07:39:16.116Z",
+      "feature": "studycore-nextjs",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-24T07:39:23.741Z",
+      "feature": "studycore-nextjs",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-24T07:39:40.693Z",
+      "feature": "studycore-nextjs",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-24T07:39:55.908Z",
+      "feature": "studycore-nextjs",
+      "phase": "do",
+      "action": "updated"
+    }
+  ]
+}

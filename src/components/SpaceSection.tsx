@@ -40,6 +40,11 @@ export const SpaceSection = () => {
   const [isPaused, setIsPaused] = useState(false);
   const prevLengthRef = useRef(spaces.length);
 
+  // Touch swipe state
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
+  const minSwipeDistance = 50;
+
   const nextSlide = useCallback(() => {
     setCurrentIndex((prev) => (prev + 1) % spaces.length);
   }, [spaces.length]);
@@ -67,6 +72,30 @@ export const SpaceSection = () => {
 
     return () => clearInterval(interval);
   }, [isPaused, nextSlide]);
+
+  // Touch swipe handlers
+  const onTouchStart = useCallback((e: React.TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  }, []);
+
+  const onTouchMove = useCallback((e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  }, []);
+
+  const onTouchEnd = useCallback(() => {
+    if (!touchStart || !touchEnd) return;
+
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+
+    if (isLeftSwipe) {
+      nextSlide();
+    } else if (isRightSwipe) {
+      prevSlide();
+    }
+  }, [touchStart, touchEnd, nextSlide, prevSlide]);
 
   // 키보드 네비게이션 핸들러
   const handleKeyDown = useCallback(
@@ -122,6 +151,9 @@ export const SpaceSection = () => {
           onFocus={() => setIsPaused(true)}
           onBlur={() => setIsPaused(false)}
           onKeyDown={handleKeyDown}
+          onTouchStart={onTouchStart}
+          onTouchMove={onTouchMove}
+          onTouchEnd={onTouchEnd}
           role="region"
           aria-roledescription="carousel"
           aria-label="프리미엄 공간 이미지 캐러셀"

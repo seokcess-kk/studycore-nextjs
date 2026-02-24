@@ -10,6 +10,7 @@ interface Notice {
   title: string;
   content: string;
   is_published: boolean;
+  view_count: number;
   created_at: string;
 }
 
@@ -69,9 +70,12 @@ export function NoticeList() {
               <p className="text-slate-400 text-sm line-clamp-2 mb-3">
                 {notice.content}
               </p>
-              <time className="text-slate-500 text-sm">
-                {new Date(notice.created_at).toLocaleDateString('ko-KR')}
-              </time>
+              <div className="flex items-center gap-4 text-slate-500 text-sm">
+                <time>
+                  {new Date(notice.created_at).toLocaleDateString('ko-KR')}
+                </time>
+                <span>조회 {notice.view_count}</span>
+              </div>
             </CardContent>
           </Card>
         </Link>

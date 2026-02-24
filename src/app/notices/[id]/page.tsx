@@ -44,6 +44,9 @@ export default async function NoticePage({ params }: NoticePageProps) {
     notFound();
   }
 
+  // 조회수 증가 (비동기, 에러 무시)
+  supabase.rpc('increment_notice_view_count', { notice_id: id }).then();
+
   return (
     <>
       <Header />

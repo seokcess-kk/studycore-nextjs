@@ -21,7 +21,7 @@ npm run lint         # Run ESLint
 ### Tech Stack
 - **Framework**: Next.js 16.1.6 (App Router)
 - **React**: 19.2.3
-- **Styling**: Tailwind CSS 4 + custom CSS variables
+- **Styling**: Tailwind CSS 4 + OKLCH color system
 - **Backend**: Supabase (Auth + Database)
 - **State Management**: TanStack Query (React Query)
 - **UI Components**: Radix UI primitives + shadcn/ui pattern
@@ -37,7 +37,7 @@ src/
 │   ├── auth/               # Authentication page
 │   ├── notices/            # Notice board with [id] dynamic route
 │   ├── providers.tsx       # Global providers (QueryClient, Theme, Auth)
-│   └── globals.css         # CSS variables + custom utilities
+│   └── globals.css         # Tailwind v4 @theme tokens + custom utilities
 ├── components/
 │   ├── ui/                 # shadcn/ui components (Radix-based)
 │   ├── admin/              # Admin-specific editors and tables
@@ -48,7 +48,7 @@ src/
 │   └── use*.ts             # Other data fetching hooks
 └── lib/
     ├── supabase/
-    │   ├── client.ts       # Browser Supabase client
+    │   ├── client.ts       # Browser Supabase client (lazy init with Proxy)
     │   ├── server.ts       # Server Supabase client (with cookies)
     │   └── types/          # TypeScript types for DB tables
     ├── utils.ts            # cn() utility for className merging
@@ -59,23 +59,31 @@ src/
 
 **Supabase Clients**
 - Browser: `import { supabase } from '@/lib/supabase/client'`
+  - Uses Proxy pattern for lazy initialization (prevents build-time env errors)
 - Server Components: `import { createClient } from '@/lib/supabase/server'` (async)
 
-**Data Fetching**
-- Public data uses TanStack Query hooks (e.g., `usePageSection`, `useHeroStats`)
-- Admin mutations include edit history tracking via `section_edit_history` table
+**Data Fetching with TanStack Query**
+- Query key conventions:
+  - `['page-sections', sectionKey]` - Public section data
+  - `['page-sections-admin', sectionKey]` - Admin section with metadata
+  - `['hero-stats']`, `['space-slides']`, `['system-cards']` - CMS list data
+- Mutations include edit history tracking via `section_edit_history` table
 - Fallback defaults in `section-defaults.ts` when DB fails
 
 **Admin Authentication**
 - Role-based access via `user_roles` table
-- Server-side verification using `has_role` RPC function
+- `has_role(user_id, 'admin')` RPC function for server-side verification
 - Protected routes redirect to `/auth` if not authenticated
 
-**Styling Conventions**
-- CSS variables defined in `globals.css` for theming (light/dark)
-- Primary color: teal (#14b8a6)
-- Custom utilities: `.glass-card`, `.teal-glow`, `.text-gradient`, `.hover-lift`
-- Path alias: `@/*` maps to `./src/*`
+**Tailwind CSS v4 Patterns**
+- Design tokens defined with `@theme { }` block in `globals.css`
+- Custom utilities via `@utility` directive (e.g., `glass-card`, `teal-glow`, `text-gradient`)
+- Dark mode: `@custom-variant dark (&:where(.dark, .dark *))`
+- OKLCH color format: `oklch(55% 0.15 175)` for primary teal
+- Custom animations: `fade-in`, `slide-up`, `scale-in`, `float`, `pulse-glow`
+
+**Path Alias**
+- `@/*` maps to `./src/*`
 
 ### Environment Variables Required
 ```
@@ -84,7 +92,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY
 ```
 
 ### Database Tables (Supabase)
-- `page_sections` - CMS content fields by section
+- `page_sections` - CMS content fields by section (key: section_key + field_key)
 - `hero_stats` - Landing page statistics
 - `space_slides` - Space section carousel items
 - `system_cards` - System section feature cards
@@ -94,3 +102,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY
 - `site_settings` - Key-value site configuration
 - `user_roles` - Admin role assignments
 - `section_edit_history` - Content edit audit log
+
+### Database Migrations
+- Location: `supabase/migrations/`
+- RLS enabled on all tables with public read / admin write policies

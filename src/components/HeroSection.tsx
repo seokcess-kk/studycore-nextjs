@@ -1,9 +1,11 @@
 'use client';
 
-import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { Icon } from "@iconify/react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import { TypeAnimation } from "react-type-animation";
 import { usePageSection } from "@/hooks/usePageSections";
 import { useHeroStats } from "@/hooks/useHeroStats";
 import { DEFAULT_HERO, DEFAULT_HERO_STATS } from "@/lib/section-defaults";
@@ -11,6 +13,22 @@ import { DEFAULT_HERO, DEFAULT_HERO_STATS } from "@/lib/section-defaults";
 export const HeroSection = () => {
   const { data: heroData } = usePageSection('hero');
   const { data: heroStats } = useHeroStats();
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const { scrollY } = useScroll();
+
+  // Parallax transforms
+  const y1 = useTransform(scrollY, [0, 500], [0, 150]);
+  const y2 = useTransform(scrollY, [0, 500], [0, -100]);
+  const bgOpacity = useTransform(scrollY, [0, 300], [1, 0.3]);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setPrefersReducedMotion(mediaQuery.matches);
+
+    const handler = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches);
+    mediaQuery.addEventListener('change', handler);
+    return () => mediaQuery.removeEventListener('change', handler);
+  }, []);
 
   // DB 데이터 또는 기본값 사용
   const hero = {
@@ -41,9 +59,15 @@ export const HeroSection = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-surface-dark/70 via-surface-dark/50 to-surface-dark/90" />
       </div>
 
-      {/* Decorative Elements */}
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/15 rounded-full blur-[120px]" />
-      <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-brand-cyan/15 rounded-full blur-[100px]" />
+      {/* Decorative Elements with Parallax */}
+      <motion.div
+        style={prefersReducedMotion ? {} : { y: y1, opacity: bgOpacity }}
+        className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/15 rounded-full blur-[120px]"
+      />
+      <motion.div
+        style={prefersReducedMotion ? {} : { y: y2, opacity: bgOpacity }}
+        className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-brand-cyan/15 rounded-full blur-[100px]"
+      />
 
       {/* Grid Pattern */}
       <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:60px_60px]" />
@@ -74,7 +98,18 @@ export const HeroSection = () => {
           >
             {hero.headline_1}
             <br />
-            <span className="text-gradient">{hero.headline_2}</span>
+            {prefersReducedMotion ? (
+              <span className="text-gradient">{hero.headline_2}</span>
+            ) : (
+              <TypeAnimation
+                sequence={[hero.headline_2, 3000]}
+                wrapper="span"
+                speed={50}
+                className="text-gradient"
+                repeat={0}
+                cursor={false}
+              />
+            )}
           </motion.h1>
 
           <motion.p

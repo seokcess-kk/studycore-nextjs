@@ -156,7 +156,7 @@ export const ContactSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="text-center mb-14"
         >
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/30 mb-6">
             <Icon icon="solar:chat-round-dots-bold" className="w-4 h-4 text-primary" />
@@ -208,7 +208,7 @@ export const ContactSection = () => {
                     placeholder="홍길동"
                   />
                   {touched.studentName && fieldErrors.studentName && (
-                    <p id="studentName-error" className="text-red-500 text-xs mt-1 flex items-center gap-1">
+                    <p id="studentName-error" className="text-destructive text-sm mt-1.5 flex items-center gap-1">
                       <Icon icon="solar:danger-circle-bold" className="w-3 h-3" />
                       {fieldErrors.studentName}
                     </p>
@@ -233,7 +233,7 @@ export const ContactSection = () => {
                     placeholder="예) OO고등학교 2학년"
                   />
                   {touched.schoolGrade && fieldErrors.schoolGrade && (
-                    <p id="schoolGrade-error" className="text-red-500 text-xs mt-1 flex items-center gap-1">
+                    <p id="schoolGrade-error" className="text-destructive text-sm mt-1.5 flex items-center gap-1">
                       <Icon icon="solar:danger-circle-bold" className="w-3 h-3" />
                       {fieldErrors.schoolGrade}
                     </p>
@@ -259,7 +259,7 @@ export const ContactSection = () => {
                     placeholder="010-0000-0000"
                   />
                   {touched.studentPhone && fieldErrors.studentPhone && (
-                    <p id="studentPhone-error" className="text-red-500 text-xs mt-1 flex items-center gap-1">
+                    <p id="studentPhone-error" className="text-destructive text-sm mt-1.5 flex items-center gap-1">
                       <Icon icon="solar:danger-circle-bold" className="w-3 h-3" />
                       {fieldErrors.studentPhone}
                     </p>
@@ -285,7 +285,7 @@ export const ContactSection = () => {
                     placeholder="010-0000-0000"
                   />
                   {touched.parentPhone && fieldErrors.parentPhone && (
-                    <p id="parentPhone-error" className="text-red-500 text-xs mt-1 flex items-center gap-1">
+                    <p id="parentPhone-error" className="text-destructive text-sm mt-1.5 flex items-center gap-1">
                       <Icon icon="solar:danger-circle-bold" className="w-3 h-3" />
                       {fieldErrors.parentPhone}
                     </p>
@@ -293,7 +293,7 @@ export const ContactSection = () => {
                 </div>
               </div>
 
-              <div className="flex flex-col sm:flex-row sm:items-center gap-4 py-4 px-5 bg-secondary rounded-xl">
+              <div className="flex flex-col md:flex-row md:items-center gap-4 py-4 px-5 bg-secondary rounded-xl">
                 <div className="flex flex-col gap-1">
                   <div className="flex items-center gap-3">
                     <Label className="text-sm text-muted-foreground flex items-center gap-2 whitespace-nowrap">
