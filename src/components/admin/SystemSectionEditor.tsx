@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { usePageSectionAdmin, useBatchUpdatePageSection } from '@/hooks/usePageSections';
 import { useSystemCardsAdmin, useReorderSystemCards, useDeleteSystemCard } from '@/hooks/useSystemCards';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -8,8 +8,11 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { SortableList } from './SortableList';
 import { SystemCardModal } from './SystemCardModal';
+import { SaveStatusIndicator } from './SaveStatusIndicator';
+import { CharacterCounter } from './CharacterCounter';
+import { useUnsavedChangesWarning } from '@/hooks/useUnsavedChangesWarning';
 import type { SystemCard } from '@/lib/supabase/types/admin-cms';
-import { Loader2, Plus, Pencil, Trash2, GripVertical, Save } from 'lucide-react';
+import { Loader2, Plus, Pencil, Trash2, GripVertical, Save, RotateCcw } from 'lucide-react';
 import { Icon } from '@iconify/react';
 import {
   AlertDialog,
@@ -41,6 +44,11 @@ export function SystemSectionEditor() {
   const [deleteTarget, setDeleteTarget] = useState<SystemCard | null>(null);
   const [formValues, setFormValues] = useState<Record<string, string>>({});
   const [hasChanges, setHasChanges] = useState(false);
+  const [lastSavedAt, setLastSavedAt] = useState<Date | null>(null);
+  const initialValuesRef = useRef<Record<string, string>>({});
+
+  // 페이지 이탈 경고
+  useUnsavedChangesWarning(hasChanges);
 
   // 필드 초기값 설정 - 외부 데이터를 로컬 상태로 동기화
   useEffect(() => {
@@ -51,8 +59,15 @@ export function SystemSectionEditor() {
       });
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setFormValues(values);
+      initialValuesRef.current = values;
     }
   }, [fields]);
+
+  // 원래대로 되돌리기 (useCallback은 early return 전에 호출되어야 함)
+  const handleReset = useCallback(() => {
+    setFormValues(initialValuesRef.current);
+    setHasChanges(false);
+  }, []);
 
   if (fieldsLoading || cardsLoading) {
     return (
@@ -89,6 +104,8 @@ export function SystemSectionEditor() {
       });
     }
     setHasChanges(false);
+    setLastSavedAt(new Date());
+    initialValuesRef.current = { ...formValues };
   };
 
   const handleReorder = (reorderedCards: SystemCard[]) => {
@@ -100,57 +117,88 @@ export function SystemSectionEditor() {
       {/* 섹션 헤더 편집 */}
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle>섹션 헤더</CardTitle>
-          <Button
-            onClick={handleSave}
-            disabled={!hasChanges || batchUpdate.isPending}
-          >
-            {batchUpdate.isPending ? (
-              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-            ) : (
-              <Save className="w-4 h-4 mr-2" />
+          <div className="flex items-center gap-4">
+            <CardTitle>섹션 헤더</CardTitle>
+            <SaveStatusIndicator
+              hasChanges={hasChanges}
+              isPending={batchUpdate.isPending}
+              lastSavedAt={lastSavedAt}
+            />
+          </div>
+          <div className="flex items-center gap-2">
+            {hasChanges && (
+              <Button variant="outline" onClick={handleReset}>
+                <RotateCcw className="w-4 h-4 mr-2" />
+                원래대로
+              </Button>
             )}
-            저장
-          </Button>
+            <Button
+              onClick={handleSave}
+              disabled={!hasChanges || batchUpdate.isPending}
+            >
+              {batchUpdate.isPending ? (
+                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+              ) : (
+                <Save className="w-4 h-4 mr-2" />
+              )}
+              저장
+            </Button>
+          </div>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="badge">배지 텍스트</Label>
+              <div className="flex items-center justify-between">
+                <Label htmlFor="badge">배지 텍스트</Label>
+                <CharacterCounter current={getFieldValue('badge').length} max={30} />
+              </div>
               <Input
                 id="badge"
                 value={getFieldValue('badge')}
                 onChange={(e) => handleFieldChange('badge', e.target.value)}
                 placeholder="MANAGEMENT SYSTEM"
+                maxLength={30}
               />
             </div>
             <div>
-              <Label htmlFor="title">메인 제목</Label>
+              <div className="flex items-center justify-between">
+                <Label htmlFor="title">메인 제목</Label>
+                <CharacterCounter current={getFieldValue('title').length} max={40} />
+              </div>
               <Input
                 id="title"
                 value={getFieldValue('title')}
                 onChange={(e) => handleFieldChange('title', e.target.value)}
+                maxLength={40}
               />
             </div>
           </div>
 
           <div>
-            <Label htmlFor="description_1">설명 1</Label>
+            <div className="flex items-center justify-between">
+              <Label htmlFor="description_1">설명 1</Label>
+              <CharacterCounter current={getFieldValue('description_1').length} max={150} />
+            </div>
             <Textarea
               id="description_1"
               value={getFieldValue('description_1')}
               onChange={(e) => handleFieldChange('description_1', e.target.value)}
               rows={2}
+              maxLength={150}
             />
           </div>
 
           <div>
-            <Label htmlFor="description_2">설명 2</Label>
+            <div className="flex items-center justify-between">
+              <Label htmlFor="description_2">설명 2</Label>
+              <CharacterCounter current={getFieldValue('description_2').length} max={150} />
+            </div>
             <Textarea
               id="description_2"
               value={getFieldValue('description_2')}
               onChange={(e) => handleFieldChange('description_2', e.target.value)}
               rows={2}
+              maxLength={150}
             />
           </div>
         </CardContent>

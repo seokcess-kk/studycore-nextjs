@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { usePageSectionAdmin, useBatchUpdatePageSection } from '@/hooks/usePageSections';
 import { useOperatingHoursAdmin, useUpdateOperatingHour } from '@/hooks/useOperatingHours';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -6,8 +6,11 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { SaveStatusIndicator } from './SaveStatusIndicator';
+import { CharacterCounter } from './CharacterCounter';
+import { useUnsavedChangesWarning } from '@/hooks/useUnsavedChangesWarning';
 import type { OperatingHour } from '@/lib/supabase/types/admin-cms';
-import { Loader2, Save, Pencil } from 'lucide-react';
+import { Loader2, Save, Pencil, RotateCcw } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -23,12 +26,17 @@ export function ProgramSectionEditor() {
 
   const [formValues, setFormValues] = useState<Record<string, string>>({});
   const [hasChanges, setHasChanges] = useState(false);
+  const [lastSavedAt, setLastSavedAt] = useState<Date | null>(null);
+  const initialValuesRef = useRef<Record<string, string>>({});
   const [editingHour, setEditingHour] = useState<OperatingHour | null>(null);
   const [hourForm, setHourForm] = useState({
     schedule_label: '',
     operating_hours: '',
     study_hours: '',
   });
+
+  // 페이지 이탈 경고
+  useUnsavedChangesWarning(hasChanges);
 
   // 필드 초기값 설정 - 외부 데이터를 로컬 상태로 동기화
   useEffect(() => {
@@ -39,6 +47,7 @@ export function ProgramSectionEditor() {
       });
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setFormValues(values);
+      initialValuesRef.current = values;
     }
   }, [fields]);
 
@@ -53,6 +62,12 @@ export function ProgramSectionEditor() {
       });
     }
   }, [editingHour]);
+
+  // 원래대로 되돌리기 (useCallback은 early return 전에 호출되어야 함)
+  const handleReset = useCallback(() => {
+    setFormValues(initialValuesRef.current);
+    setHasChanges(false);
+  }, []);
 
   if (fieldsLoading || hoursLoading) {
     return (
@@ -89,6 +104,8 @@ export function ProgramSectionEditor() {
       });
     }
     setHasChanges(false);
+    setLastSavedAt(new Date());
+    initialValuesRef.current = { ...formValues };
   };
 
   const handleHourSave = async () => {
@@ -108,36 +125,59 @@ export function ProgramSectionEditor() {
       {/* 섹션 헤더 */}
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle>섹션 헤더</CardTitle>
-          <Button
-            onClick={handleSave}
-            disabled={!hasChanges || batchUpdate.isPending}
-          >
-            {batchUpdate.isPending ? (
-              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-            ) : (
-              <Save className="w-4 h-4 mr-2" />
+          <div className="flex items-center gap-4">
+            <CardTitle>섹션 헤더</CardTitle>
+            <SaveStatusIndicator
+              hasChanges={hasChanges}
+              isPending={batchUpdate.isPending}
+              lastSavedAt={lastSavedAt}
+            />
+          </div>
+          <div className="flex items-center gap-2">
+            {hasChanges && (
+              <Button variant="outline" onClick={handleReset}>
+                <RotateCcw className="w-4 h-4 mr-2" />
+                원래대로
+              </Button>
             )}
-            저장
-          </Button>
+            <Button
+              onClick={handleSave}
+              disabled={!hasChanges || batchUpdate.isPending}
+            >
+              {batchUpdate.isPending ? (
+                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+              ) : (
+                <Save className="w-4 h-4 mr-2" />
+              )}
+              저장
+            </Button>
+          </div>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="badge">배지 텍스트</Label>
+              <div className="flex items-center justify-between">
+                <Label htmlFor="badge">배지 텍스트</Label>
+                <CharacterCounter current={getFieldValue('badge').length} max={20} />
+              </div>
               <Input
                 id="badge"
                 value={getFieldValue('badge')}
                 onChange={(e) => handleFieldChange('badge', e.target.value)}
                 placeholder="PROGRAM"
+                maxLength={20}
               />
             </div>
             <div>
-              <Label htmlFor="title">섹션 제목</Label>
+              <div className="flex items-center justify-between">
+                <Label htmlFor="title">섹션 제목</Label>
+                <CharacterCounter current={getFieldValue('title').length} max={40} />
+              </div>
               <Input
                 id="title"
                 value={getFieldValue('title')}
                 onChange={(e) => handleFieldChange('title', e.target.value)}
+                maxLength={40}
               />
             </div>
           </div>
@@ -152,41 +192,57 @@ export function ProgramSectionEditor() {
         <CardContent className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="status_badge">상태 배지</Label>
+              <div className="flex items-center justify-between">
+                <Label htmlFor="status_badge">상태 배지</Label>
+                <CharacterCounter current={getFieldValue('status_badge').length} max={20} />
+              </div>
               <Input
                 id="status_badge"
                 value={getFieldValue('status_badge')}
                 onChange={(e) => handleFieldChange('status_badge', e.target.value)}
                 placeholder="NOW OPEN"
+                maxLength={20}
               />
             </div>
             <div>
-              <Label htmlFor="banner_title">배너 제목</Label>
+              <div className="flex items-center justify-between">
+                <Label htmlFor="banner_title">배너 제목</Label>
+                <CharacterCounter current={getFieldValue('banner_title').length} max={40} />
+              </div>
               <Input
                 id="banner_title"
                 value={getFieldValue('banner_title')}
                 onChange={(e) => handleFieldChange('banner_title', e.target.value)}
+                maxLength={40}
               />
             </div>
           </div>
 
           <div>
-            <Label htmlFor="banner_desc_1">배너 설명 1</Label>
+            <div className="flex items-center justify-between">
+              <Label htmlFor="banner_desc_1">배너 설명 1</Label>
+              <CharacterCounter current={getFieldValue('banner_desc_1').length} max={150} />
+            </div>
             <Textarea
               id="banner_desc_1"
               value={getFieldValue('banner_desc_1')}
               onChange={(e) => handleFieldChange('banner_desc_1', e.target.value)}
               rows={2}
+              maxLength={150}
             />
           </div>
 
           <div>
-            <Label htmlFor="banner_desc_2">배너 설명 2</Label>
+            <div className="flex items-center justify-between">
+              <Label htmlFor="banner_desc_2">배너 설명 2</Label>
+              <CharacterCounter current={getFieldValue('banner_desc_2').length} max={150} />
+            </div>
             <Textarea
               id="banner_desc_2"
               value={getFieldValue('banner_desc_2')}
               onChange={(e) => handleFieldChange('banner_desc_2', e.target.value)}
               rows={2}
+              maxLength={150}
             />
           </div>
         </CardContent>
@@ -200,27 +256,39 @@ export function ProgramSectionEditor() {
         <CardContent className="space-y-4">
           <div className="grid grid-cols-3 gap-4">
             <div>
-              <Label htmlFor="start_date">개강일</Label>
+              <div className="flex items-center justify-between">
+                <Label htmlFor="start_date">개강일</Label>
+                <CharacterCounter current={getFieldValue('start_date').length} max={30} />
+              </div>
               <Input
                 id="start_date"
                 value={getFieldValue('start_date')}
                 onChange={(e) => handleFieldChange('start_date', e.target.value)}
+                maxLength={30}
               />
             </div>
             <div>
-              <Label htmlFor="duration_cost">기간/비용</Label>
+              <div className="flex items-center justify-between">
+                <Label htmlFor="duration_cost">기간/비용</Label>
+                <CharacterCounter current={getFieldValue('duration_cost').length} max={30} />
+              </div>
               <Input
                 id="duration_cost"
                 value={getFieldValue('duration_cost')}
                 onChange={(e) => handleFieldChange('duration_cost', e.target.value)}
+                maxLength={30}
               />
             </div>
             <div>
-              <Label htmlFor="capacity">모집정원</Label>
+              <div className="flex items-center justify-between">
+                <Label htmlFor="capacity">모집정원</Label>
+                <CharacterCounter current={getFieldValue('capacity').length} max={20} />
+              </div>
               <Input
                 id="capacity"
                 value={getFieldValue('capacity')}
                 onChange={(e) => handleFieldChange('capacity', e.target.value)}
+                maxLength={20}
               />
             </div>
           </div>
@@ -235,28 +303,40 @@ export function ProgramSectionEditor() {
         <CardContent className="space-y-4">
           <div className="grid grid-cols-3 gap-4">
             <div>
-              <Label htmlFor="cta_primary">메인 버튼 텍스트</Label>
+              <div className="flex items-center justify-between">
+                <Label htmlFor="cta_primary">메인 버튼 텍스트</Label>
+                <CharacterCounter current={getFieldValue('cta_primary').length} max={20} />
+              </div>
               <Input
                 id="cta_primary"
                 value={getFieldValue('cta_primary')}
                 onChange={(e) => handleFieldChange('cta_primary', e.target.value)}
+                maxLength={20}
               />
             </div>
             <div>
-              <Label htmlFor="cta_secondary">서브 버튼 텍스트</Label>
+              <div className="flex items-center justify-between">
+                <Label htmlFor="cta_secondary">서브 버튼 텍스트</Label>
+                <CharacterCounter current={getFieldValue('cta_secondary').length} max={20} />
+              </div>
               <Input
                 id="cta_secondary"
                 value={getFieldValue('cta_secondary')}
                 onChange={(e) => handleFieldChange('cta_secondary', e.target.value)}
+                maxLength={20}
               />
             </div>
             <div>
-              <Label htmlFor="phone">전화번호</Label>
+              <div className="flex items-center justify-between">
+                <Label htmlFor="phone">전화번호</Label>
+                <CharacterCounter current={getFieldValue('phone').length} max={15} />
+              </div>
               <Input
                 id="phone"
                 value={getFieldValue('phone')}
                 onChange={(e) => handleFieldChange('phone', e.target.value)}
                 placeholder="01044083790"
+                maxLength={15}
               />
               <p className="text-sm text-muted-foreground mt-1">하이픈(-) 없이 숫자만</p>
             </div>

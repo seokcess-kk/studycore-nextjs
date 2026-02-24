@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { usePageSectionAdmin, useBatchUpdatePageSection } from '@/hooks/usePageSections';
 import { useHeroStatsAdmin, useUpdateHeroStat, useDeleteHeroStat, useReorderHeroStats, useCreateHeroStat } from '@/hooks/useHeroStats';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -7,7 +7,10 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { SortableList } from './SortableList';
-import { Loader2, Plus, Pencil, Trash2, GripVertical, Save } from 'lucide-react';
+import { SaveStatusIndicator } from './SaveStatusIndicator';
+import { CharacterCounter } from './CharacterCounter';
+import { useUnsavedChangesWarning } from '@/hooks/useUnsavedChangesWarning';
+import { Loader2, Plus, Pencil, Trash2, GripVertical, Save, RotateCcw } from 'lucide-react';
 import { Icon } from '@iconify/react';
 import {
   AlertDialog,
@@ -39,7 +42,12 @@ export function HeroSectionEditor() {
 
   const [formValues, setFormValues] = useState<Record<string, string>>({});
   const [hasChanges, setHasChanges] = useState(false);
+  const [lastSavedAt, setLastSavedAt] = useState<Date | null>(null);
+  const initialValuesRef = useRef<Record<string, string>>({});
   const [editingStat, setEditingStat] = useState<HeroStat | null>(null);
+
+  // 페이지 이탈 경고
+  useUnsavedChangesWarning(hasChanges);
   const [isAddingStat, setIsAddingStat] = useState(false);
   const [deleteTarget, setDeleteTarget] = useState<HeroStat | null>(null);
   const [statForm, setStatForm] = useState({
@@ -58,6 +66,7 @@ export function HeroSectionEditor() {
       });
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setFormValues(values);
+      initialValuesRef.current = values;
     }
   }, [fields]);
 
@@ -80,6 +89,12 @@ export function HeroSectionEditor() {
       });
     }
   }, [editingStat, isAddingStat]);
+
+  // 원래대로 되돌리기 (useCallback은 early return 전에 호출되어야 함)
+  const handleReset = useCallback(() => {
+    setFormValues(initialValuesRef.current);
+    setHasChanges(false);
+  }, []);
 
   if (fieldsLoading || statsLoading) {
     return (
@@ -117,6 +132,8 @@ export function HeroSectionEditor() {
       });
     }
     setHasChanges(false);
+    setLastSavedAt(new Date());
+    initialValuesRef.current = { ...formValues };
   };
 
   const handleReorder = (reorderedStats: HeroStat[]) => {
@@ -153,86 +170,129 @@ export function HeroSectionEditor() {
       {/* 기본 정보 */}
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle>기본 정보</CardTitle>
-          <Button
-            onClick={handleSave}
-            disabled={!hasChanges || batchUpdate.isPending}
-          >
-            {batchUpdate.isPending ? (
-              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-            ) : (
-              <Save className="w-4 h-4 mr-2" />
+          <div className="flex items-center gap-4">
+            <CardTitle>기본 정보</CardTitle>
+            <SaveStatusIndicator
+              hasChanges={hasChanges}
+              isPending={batchUpdate.isPending}
+              lastSavedAt={lastSavedAt}
+            />
+          </div>
+          <div className="flex items-center gap-2">
+            {hasChanges && (
+              <Button variant="outline" onClick={handleReset}>
+                <RotateCcw className="w-4 h-4 mr-2" />
+                원래대로
+              </Button>
             )}
-            저장
-          </Button>
+            <Button
+              onClick={handleSave}
+              disabled={!hasChanges || batchUpdate.isPending}
+            >
+              {batchUpdate.isPending ? (
+                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+              ) : (
+                <Save className="w-4 h-4 mr-2" />
+              )}
+              저장
+            </Button>
+          </div>
         </CardHeader>
         <CardContent className="space-y-4">
           <div>
-            <Label htmlFor="badge">상단 배지</Label>
+            <div className="flex items-center justify-between">
+              <Label htmlFor="badge">상단 배지</Label>
+              <CharacterCounter current={getFieldValue('badge').length} max={50} />
+            </div>
             <Input
               id="badge"
               value={getFieldValue('badge')}
               onChange={(e) => handleFieldChange('badge', e.target.value)}
               placeholder="PREMIUM MANAGED STUDY CENTER"
+              maxLength={50}
             />
             <p className="text-sm text-muted-foreground mt-1">영문 대문자로 짧은 슬로건 입력</p>
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="headline_1">메인 헤드라인 (1줄)</Label>
+              <div className="flex items-center justify-between">
+                <Label htmlFor="headline_1">메인 헤드라인 (1줄)</Label>
+                <CharacterCounter current={getFieldValue('headline_1').length} max={30} />
+              </div>
               <Input
                 id="headline_1"
                 value={getFieldValue('headline_1')}
                 onChange={(e) => handleFieldChange('headline_1', e.target.value)}
+                maxLength={30}
               />
             </div>
             <div>
-              <Label htmlFor="headline_2">메인 헤드라인 (2줄, 강조)</Label>
+              <div className="flex items-center justify-between">
+                <Label htmlFor="headline_2">메인 헤드라인 (2줄, 강조)</Label>
+                <CharacterCounter current={getFieldValue('headline_2').length} max={30} />
+              </div>
               <Input
                 id="headline_2"
                 value={getFieldValue('headline_2')}
                 onChange={(e) => handleFieldChange('headline_2', e.target.value)}
+                maxLength={30}
               />
               <p className="text-sm text-muted-foreground mt-1">그라데이션 효과 적용</p>
             </div>
           </div>
 
           <div>
-            <Label htmlFor="description_1">설명 텍스트 1</Label>
+            <div className="flex items-center justify-between">
+              <Label htmlFor="description_1">설명 텍스트 1</Label>
+              <CharacterCounter current={getFieldValue('description_1').length} max={150} />
+            </div>
             <Textarea
               id="description_1"
               value={getFieldValue('description_1')}
               onChange={(e) => handleFieldChange('description_1', e.target.value)}
               rows={2}
+              maxLength={150}
             />
           </div>
 
           <div>
-            <Label htmlFor="description_2">설명 텍스트 2</Label>
+            <div className="flex items-center justify-between">
+              <Label htmlFor="description_2">설명 텍스트 2</Label>
+              <CharacterCounter current={getFieldValue('description_2').length} max={150} />
+            </div>
             <Textarea
               id="description_2"
               value={getFieldValue('description_2')}
               onChange={(e) => handleFieldChange('description_2', e.target.value)}
               rows={2}
+              maxLength={150}
             />
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="cta_primary">메인 버튼 텍스트</Label>
+              <div className="flex items-center justify-between">
+                <Label htmlFor="cta_primary">메인 버튼 텍스트</Label>
+                <CharacterCounter current={getFieldValue('cta_primary').length} max={20} />
+              </div>
               <Input
                 id="cta_primary"
                 value={getFieldValue('cta_primary')}
                 onChange={(e) => handleFieldChange('cta_primary', e.target.value)}
+                maxLength={20}
               />
             </div>
             <div>
-              <Label htmlFor="cta_secondary">서브 버튼 텍스트</Label>
+              <div className="flex items-center justify-between">
+                <Label htmlFor="cta_secondary">서브 버튼 텍스트</Label>
+                <CharacterCounter current={getFieldValue('cta_secondary').length} max={20} />
+              </div>
               <Input
                 id="cta_secondary"
                 value={getFieldValue('cta_secondary')}
                 onChange={(e) => handleFieldChange('cta_secondary', e.target.value)}
+                maxLength={20}
               />
             </div>
           </div>

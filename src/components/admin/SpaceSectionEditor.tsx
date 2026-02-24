@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { usePageSectionAdmin, useBatchUpdatePageSection } from '@/hooks/usePageSections';
 import { useSpaceSlidesAdmin, useReorderSpaceSlides, useDeleteSpaceSlide } from '@/hooks/useSpaceSlides';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -8,8 +8,11 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { SortableList } from './SortableList';
 import { SpaceSlideModal } from './SpaceSlideModal';
+import { SaveStatusIndicator } from './SaveStatusIndicator';
+import { CharacterCounter } from './CharacterCounter';
+import { useUnsavedChangesWarning } from '@/hooks/useUnsavedChangesWarning';
 import type { SpaceSlide } from '@/lib/supabase/types/admin-cms';
-import { Loader2, Plus, Pencil, Trash2, GripVertical, Save } from 'lucide-react';
+import { Loader2, Plus, Pencil, Trash2, GripVertical, Save, RotateCcw } from 'lucide-react';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -33,6 +36,11 @@ export function SpaceSectionEditor() {
   const [deleteTarget, setDeleteTarget] = useState<SpaceSlide | null>(null);
   const [formValues, setFormValues] = useState<Record<string, string>>({});
   const [hasChanges, setHasChanges] = useState(false);
+  const [lastSavedAt, setLastSavedAt] = useState<Date | null>(null);
+  const initialValuesRef = useRef<Record<string, string>>({});
+
+  // 페이지 이탈 경고
+  useUnsavedChangesWarning(hasChanges);
 
   // 필드 초기값 설정 - 외부 데이터를 로컬 상태로 동기화
   useEffect(() => {
@@ -43,8 +51,15 @@ export function SpaceSectionEditor() {
       });
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setFormValues(values);
+      initialValuesRef.current = values;
     }
   }, [fields]);
+
+  // 원래대로 되돌리기 (useCallback은 early return 전에 호출되어야 함)
+  const handleReset = useCallback(() => {
+    setFormValues(initialValuesRef.current);
+    setHasChanges(false);
+  }, []);
 
   if (fieldsLoading || slidesLoading) {
     return (
@@ -81,6 +96,8 @@ export function SpaceSectionEditor() {
       });
     }
     setHasChanges(false);
+    setLastSavedAt(new Date());
+    initialValuesRef.current = { ...formValues };
   };
 
   const handleReorder = (reorderedSlides: SpaceSlide[]) => {
@@ -92,66 +109,101 @@ export function SpaceSectionEditor() {
       {/* 섹션 헤더 편집 */}
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle>섹션 헤더</CardTitle>
-          <Button
-            onClick={handleSave}
-            disabled={!hasChanges || batchUpdate.isPending}
-          >
-            {batchUpdate.isPending ? (
-              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-            ) : (
-              <Save className="w-4 h-4 mr-2" />
+          <div className="flex items-center gap-4">
+            <CardTitle>섹션 헤더</CardTitle>
+            <SaveStatusIndicator
+              hasChanges={hasChanges}
+              isPending={batchUpdate.isPending}
+              lastSavedAt={lastSavedAt}
+            />
+          </div>
+          <div className="flex items-center gap-2">
+            {hasChanges && (
+              <Button variant="outline" onClick={handleReset}>
+                <RotateCcw className="w-4 h-4 mr-2" />
+                원래대로
+              </Button>
             )}
-            저장
-          </Button>
+            <Button
+              onClick={handleSave}
+              disabled={!hasChanges || batchUpdate.isPending}
+            >
+              {batchUpdate.isPending ? (
+                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+              ) : (
+                <Save className="w-4 h-4 mr-2" />
+              )}
+              저장
+            </Button>
+          </div>
         </CardHeader>
         <CardContent className="space-y-4">
           <div>
-            <Label htmlFor="badge">배지 텍스트</Label>
+            <div className="flex items-center justify-between">
+              <Label htmlFor="badge">배지 텍스트</Label>
+              <CharacterCounter current={getFieldValue('badge').length} max={30} />
+            </div>
             <Input
               id="badge"
               value={getFieldValue('badge')}
               onChange={(e) => handleFieldChange('badge', e.target.value)}
               placeholder="PREMIUM SPACE"
+              maxLength={30}
             />
             <p className="text-sm text-muted-foreground mt-1">영문 대문자로 입력</p>
           </div>
 
           <div className="grid grid-cols-3 gap-4">
             <div>
-              <Label htmlFor="title_1">제목 1</Label>
+              <div className="flex items-center justify-between">
+                <Label htmlFor="title_1">제목 1</Label>
+                <CharacterCounter current={getFieldValue('title_1').length} max={20} />
+              </div>
               <Input
                 id="title_1"
                 value={getFieldValue('title_1')}
                 onChange={(e) => handleFieldChange('title_1', e.target.value)}
+                maxLength={20}
               />
             </div>
             <div>
-              <Label htmlFor="title_2">제목 2 (강조)</Label>
+              <div className="flex items-center justify-between">
+                <Label htmlFor="title_2">제목 2 (강조)</Label>
+                <CharacterCounter current={getFieldValue('title_2').length} max={20} />
+              </div>
               <Input
                 id="title_2"
                 value={getFieldValue('title_2')}
                 onChange={(e) => handleFieldChange('title_2', e.target.value)}
+                maxLength={20}
               />
               <p className="text-sm text-muted-foreground mt-1">그라데이션 효과 적용</p>
             </div>
             <div>
-              <Label htmlFor="title_3">제목 3</Label>
+              <div className="flex items-center justify-between">
+                <Label htmlFor="title_3">제목 3</Label>
+                <CharacterCounter current={getFieldValue('title_3').length} max={20} />
+              </div>
               <Input
                 id="title_3"
                 value={getFieldValue('title_3')}
                 onChange={(e) => handleFieldChange('title_3', e.target.value)}
+                maxLength={20}
               />
             </div>
           </div>
 
           <div>
-            <Label htmlFor="description">설명</Label>
+            <div className="flex items-center justify-between">
+              <Label htmlFor="description">설명</Label>
+              <CharacterCounter current={getFieldValue('description').length} max={200} />
+            </div>
             <Textarea
               id="description"
               value={getFieldValue('description')}
               onChange={(e) => handleFieldChange('description', e.target.value)}
               rows={2}
+              maxLength={200}
             />
           </div>
         </CardContent>
