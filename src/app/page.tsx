@@ -23,7 +23,7 @@ const jsonLd = {
       name: 'STUDYCORE 1.0',
       alternateName: '스터디코어',
       description:
-        '수험생, 고시생, 공무원시험 준비생을 위한 프리미엄 관리형 독서실. 체계적인 학습관리와 1:1 멘토링 제공.',
+        '수험생을 위한 프리미엄 관리형 독서실. 체계적인 학습관리와 1:1 멘토링 제공.',
       url: 'https://studycore.kr',
       image: 'https://studycore.kr/og-image.jpg',
       priceRange: '₩₩',

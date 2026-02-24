@@ -7,7 +7,7 @@ export const DEFAULT_HERO = {
   badge: 'PREMIUM MANAGED STUDY CENTER',
   headline_1: '학습관리의 첫 번째 완성형',
   headline_2: '스터디코어 1.0',
-  description_1: '몰입의 깊이가 다른 프리미엄 관리형 독서실',
+  description_1: '수험생을 위한 프리미엄 관리형 독서실',
   description_2: '체계적인 학습 관리로 최상위권을 향한 여정을 함께합니다',
   cta_primary: '상담 신청하기',
   cta_secondary: '공간 둘러보기',
@@ -24,7 +24,7 @@ export const DEFAULT_SPACE = {
   title_1: '최고의 성과는',
   title_2: '최고의 환경',
   title_3: '에서',
-  description: '학습에만 온전히 집중할 수 있도록 설계된 프리미엄 환경',
+  description: '수험생 학습에만 온전히 집중할 수 있도록 설계된 프리미엄 관리형 독서실',
 };
 
 export const DEFAULT_SPACE_SLIDES = [
@@ -54,7 +54,7 @@ export const DEFAULT_SYSTEM_CARDS = [
   {
     title: '학습관리',
     subtitle: '최상위권 멘토 1:1 피드백',
-    description: '개인별 학습 계획을 점검하고 최상위권 멘토의 1:1 피드백으로 학습 효율을 극대화합니다.',
+    description: '수험생 개인별 학습 계획을 점검하고 최상위권 멘토의 1:1 피드백으로 학습 효율을 극대화합니다.',
     icon_name: 'solar:clipboard-check-bold',
     color_theme: 'purple' as const
   },
@@ -79,8 +79,8 @@ export const DEFAULT_PROGRAM = {
   title: '프로그램 안내',
   status_badge: 'NOW OPEN',
   banner_title: '2026 윈터스쿨 1기 모집',
-  banner_desc_1: '겨울방학 동안 체계적인 학습 관리와 함께',
-  banner_desc_2: '새 학년을 완벽하게 준비하세요',
+  banner_desc_1: '수험생을 위한 겨울방학 집중 관리형 독서실 프로그램',
+  banner_desc_2: '체계적인 학습 관리로 새 학년을 완벽하게 준비하세요',
   start_date: '2026년 1월 1일',
   duration_cost: '2개월 · 68만원',
   capacity: '선착순 30명',
