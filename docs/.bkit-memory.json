@@ -1,8 +1,17 @@
 {
-  "sessionCount": 3,
+  "sessionCount": 7,
   "lastSession": {
-    "startedAt": "2026-02-24T07:49:11.845Z",
+    "startedAt": "2026-02-24T08:30:00.000Z",
     "platform": "claude",
     "level": "Dynamic"
-  }
+  },
+  "archivedFeatures": [
+    {
+      "feature": "ui-ux-improvements",
+      "phase": "archived",
+      "matchRate": 100,
+      "archivedAt": "2026-02-24T08:30:00.000Z",
+      "archivedTo": "docs/archive/2026-02/ui-ux-improvements/"
+    }
+  ]
 }
