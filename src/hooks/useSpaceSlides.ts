@@ -17,7 +17,8 @@ export function useSpaceSlides() {
       if (error) throw error;
       return data as SpaceSlide[];
     },
-    staleTime: 1000 * 60 * 5,
+    staleTime: 0,
+    refetchOnWindowFocus: true,
   });
 }
 
@@ -118,7 +119,8 @@ export function useUpdateSpaceSlide() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['space-slides'] });
       queryClient.invalidateQueries({ queryKey: ['space-slides-admin'] });
-      toast.success('저장되었습니다');
+      queryClient.refetchQueries({ queryKey: ['space-slides'], type: 'active' });
+      toast.success('저장 완료! 메인 페이지에 반영되었습니다.');
     },
     onError: (error: Error) => {
       toast.error('저장 실패: ' + error.message);

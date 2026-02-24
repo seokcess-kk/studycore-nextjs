@@ -22,7 +22,8 @@ export function usePageSection(sectionKey: string) {
         return acc;
       }, {} as Record<string, string>);
     },
-    staleTime: 1000 * 60 * 5, // 5분 캐시
+    staleTime: 0, // 항상 최신 데이터
+    refetchOnWindowFocus: true, // 탭 포커스 시 자동 갱신
   });
 }
 
@@ -102,13 +103,19 @@ export function useUpdatePageSection() {
       return data;
     },
     onSuccess: (_, variables) => {
+      // 모든 관련 쿼리 무효화
       queryClient.invalidateQueries({
-        queryKey: ['page-sections', variables.sectionKey]
+        queryKey: ['page-sections']
       });
       queryClient.invalidateQueries({
-        queryKey: ['page-sections-admin', variables.sectionKey]
+        queryKey: ['page-sections-admin']
       });
-      toast.success('저장되었습니다');
+      // 강제 refetch
+      queryClient.refetchQueries({
+        queryKey: ['page-sections', variables.sectionKey],
+        type: 'active'
+      });
+      toast.success('저장 완료! 메인 페이지에 반영되었습니다.');
     },
     onError: (error: Error) => {
       toast.error('저장 실패: ' + error.message);
@@ -171,13 +178,19 @@ export function useBatchUpdatePageSection() {
       );
     },
     onSuccess: (_, variables) => {
+      // 모든 관련 쿼리 무효화
       queryClient.invalidateQueries({
-        queryKey: ['page-sections', variables.sectionKey]
+        queryKey: ['page-sections']
       });
       queryClient.invalidateQueries({
-        queryKey: ['page-sections-admin', variables.sectionKey]
+        queryKey: ['page-sections-admin']
       });
-      toast.success('저장되었습니다');
+      // 강제 refetch
+      queryClient.refetchQueries({
+        queryKey: ['page-sections', variables.sectionKey],
+        type: 'active'
+      });
+      toast.success('저장 완료! 메인 페이지에 반영되었습니다.');
     },
     onError: (error: Error) => {
       toast.error('저장 실패: ' + error.message);

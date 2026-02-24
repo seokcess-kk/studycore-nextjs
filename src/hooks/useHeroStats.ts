@@ -17,7 +17,8 @@ export function useHeroStats() {
       if (error) throw error;
       return data as HeroStat[];
     },
-    staleTime: 1000 * 60 * 5,
+    staleTime: 0,
+    refetchOnWindowFocus: true,
   });
 }
 
@@ -113,7 +114,8 @@ export function useUpdateHeroStat() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['hero-stats'] });
       queryClient.invalidateQueries({ queryKey: ['hero-stats-admin'] });
-      toast.success('저장되었습니다');
+      queryClient.refetchQueries({ queryKey: ['hero-stats'], type: 'active' });
+      toast.success('저장 완료! 메인 페이지에 반영되었습니다.');
     },
     onError: (error: Error) => {
       toast.error('저장 실패: ' + error.message);

@@ -17,7 +17,8 @@ export function useSystemCards() {
       if (error) throw error;
       return data as SystemCard[];
     },
-    staleTime: 1000 * 60 * 5,
+    staleTime: 0,
+    refetchOnWindowFocus: true,
   });
 }
 
@@ -113,7 +114,8 @@ export function useUpdateSystemCard() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['system-cards'] });
       queryClient.invalidateQueries({ queryKey: ['system-cards-admin'] });
-      toast.success('저장되었습니다');
+      queryClient.refetchQueries({ queryKey: ['system-cards'], type: 'active' });
+      toast.success('저장 완료! 메인 페이지에 반영되었습니다.');
     },
     onError: (error: Error) => {
       toast.error('저장 실패: ' + error.message);

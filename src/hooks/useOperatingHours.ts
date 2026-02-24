@@ -17,7 +17,8 @@ export function useOperatingHours() {
       if (error) throw error;
       return data as OperatingHour[];
     },
-    staleTime: 1000 * 60 * 5,
+    staleTime: 0,
+    refetchOnWindowFocus: true,
   });
 }
 
@@ -87,7 +88,8 @@ export function useUpdateOperatingHour() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['operating-hours'] });
       queryClient.invalidateQueries({ queryKey: ['operating-hours-admin'] });
-      toast.success('저장되었습니다');
+      queryClient.refetchQueries({ queryKey: ['operating-hours'], type: 'active' });
+      toast.success('저장 완료! 메인 페이지에 반영되었습니다.');
     },
     onError: (error: Error) => {
       toast.error('저장 실패: ' + error.message);
